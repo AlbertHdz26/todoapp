@@ -1,0 +1,63 @@
+.ToDoItem {
+    border-color: #d3d3d3 !important;
+    border: 1px;
+    border-style: solid;
+    padding-top: 18px;
+    padding-left: 18px;
+    padding-right: 18px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.ToDoItem:hover{
+    background-color: #dfdfdf;
+}
+
+.IconItem{
+    font-size: 35px;   
+    color:#c7c6c6;
+    margin-right: 15px;
+}
+
+.IconItemCompleted{
+    color: #00c921;
+}
+
+.IconItemCompleted:hover{
+    color: #03be22;
+}
+
+.IconItemDelete{
+    font-size: 35px;   
+    color: #ff0000;
+    float: right;
+}
+
+.IconItemDelete:hover{
+    color: #d10000;
+}
+
+.Text{
+    font-size: 20px;
+}
+
+.TextCompleted{
+    text-decoration: line-through;
+}
+
+.priority{
+    padding-left: 50px;
+    font-size: 11px;
+}
+
+.flag-baja{
+    color: #a500a5;
+}
+
+.flag-media{
+    color: #ffae00;
+}
+
+.flag-alta{
+    color: #ff0000;
+}

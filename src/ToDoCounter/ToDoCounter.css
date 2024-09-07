@@ -1,0 +1,9 @@
+.ToDoCounter{
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.TextBold{
+    font-weight: bold !important;
+}

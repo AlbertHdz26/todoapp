@@ -1,0 +1,35 @@
+.FilterOptions{
+    margin-bottom: 10px;
+}
+
+.FilterButtons{
+    margin-bottom: 15px;
+}
+
+.FilterButton{
+    margin-right: 3px;
+}
+
+.Completed{
+    background-color: #00c921;
+    border-color: #00c921;
+}
+
+.Incompleted{
+    background-color: #b6b4b4;
+    border-color: #b6b4b4;
+}
+
+.PriorityFilterSelect{
+    display:inline-block;
+    width: auto;
+    vertical-align: middle;
+}
+
+.PriorityFilterText{
+    font-size: 13px;
+    font-weight: bold;
+}
+
+
+
