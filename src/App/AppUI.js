@@ -26,7 +26,6 @@ function AppUI() {
 
     return (
         <Container>
-            {console.log('$$$ Init AppUI $$$')}
             <Row>
                 <Col>
                     <Title />
@@ -44,13 +43,13 @@ function AppUI() {
             <Row>
                 <FilterOptions />
                 <ToDoList>
-                    {console.log('%%% Init ToDoList %%%')}
+                    {/* {console.log('%%% Init ToDoList %%%')} */}
                     {(!loading && totalToDos === 0) && <EmptyToDo />}
                     {loading && <LoadingToDoList/>}
                     {error && <TodoError />}
-                    {console.log('List: '+List.length)}
+                    {/* {console.log('List: '+List.length)} */}
 
-                    {List.forEach(function(jsonObj) { console.log(jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority) } ) } 
+                    {/* {List.forEach(function(jsonObj) { console.log(jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority) } ) }  */}
 
                     {List.map(todo => (
                         <ToDoItem
@@ -60,11 +59,10 @@ function AppUI() {
                             completed={todo.completed}
                         />
                     ))}
-                    {console.log('%%% End ToDoList %%%')}
+                    {/* {console.log('%%% End ToDoList %%%')} */}
                 </ToDoList>
                 <ModalForm />
             </Row>
-            {console.log('$$$ End AppUI $$$')}
         </Container>
     );
 }

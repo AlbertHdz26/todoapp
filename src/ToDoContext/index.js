@@ -9,7 +9,6 @@ const ToDoContext = React.createContext();
 // ];
 
 function ToDoContextProvider({ children }) {
-    console.log('--------- Init ToDoContextProvider ---------');
     const {
         item: ToDoList,
         saveItem: saveToDos,
@@ -34,7 +33,6 @@ function ToDoContextProvider({ children }) {
     let List = '';
 
     const getAllToDos = () => {
-        console.log('getAllToDos');
         setToDoListTemp(ToDoList);
         setFilterOption(0);
         setPriority(0);
@@ -80,12 +78,6 @@ function ToDoContextProvider({ children }) {
     }
 
     const filterByPriority = (priorityOption) => {
-        console.log('filterByPriority');
-        console.log('priorityOption: ' + priorityOption);
-        console.log('List: ' + List.length);
-        if(List.length > 0){ let r=''; List.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
-        console.log('ToDoListTemp: ' + ToDoListTemp.length);
-        if(ToDoListTemp.length > 0){ let r=''; ToDoListTemp.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
 
         switch (priorityOption) {
             case 0:
@@ -108,7 +100,6 @@ function ToDoContextProvider({ children }) {
     }
 
     const filterByDownPriority = () => {
-        console.log('filterByDownPriority');
         const ListTemp = [...ToDoListTemp];
         const listByPriority = ListTemp.filter(
             (todo) => {
@@ -119,15 +110,10 @@ function ToDoContextProvider({ children }) {
         setPriority(1);
         setSearchValue('');
 
-        console.log('listByPriority: ' + listByPriority.length);
-        if(listByPriority.length > 0){ let r=''; listByPriority.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
-        console.log('ToDoListTemp2: ' + ToDoListTemp2.length);
-        if(ToDoListTemp2.length > 0){ let r=''; ToDoListTemp2.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
-
     }
 
     const filterByMediumPriority = () => {
-        console.log('filterByMediumPriority');
+
         const ListTemp = [...ToDoListTemp];
         const listByPriority = ListTemp.filter(
             (todo) => {
@@ -137,11 +123,9 @@ function ToDoContextProvider({ children }) {
         setToDoListTemp2(listByPriority);
         setPriority(2);
         setSearchValue('');
-        console.log('listByPriority: ' + listByPriority);
     }
 
     const filterByHighPriority = () => {
-        console.log('filterByHighPriority');
         const ListTemp = [...ToDoListTemp];
         const listByPriority = ListTemp.filter(
             (todo) => {
@@ -151,31 +135,15 @@ function ToDoContextProvider({ children }) {
         setToDoListTemp2(listByPriority);
         setPriority(3);
         setSearchValue('');
-        console.log('listByPriority: ' + listByPriority);
     }
 
     const findToDoByText = (Text) => {
-        console.log('+++++++ findToDoByText +++++++');
-        console.log('Text: ' + Text);
-        console.log('filterOption: ' + filterOption);
-        console.log('priority: ' + priority);
-        console.log('ToDoList: ' + ToDoList.length);
-        if(ToDoList.length > 0){ let r=''; ToDoList.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
-        console.log('ToDoListTemp: ' + ToDoListTemp.length );
-        if(ToDoListTemp.length > 0){let r=''; ToDoListTemp.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
-        console.log('ToDoListTemp2: ' + ToDoListTemp2.length );
-        if(ToDoListTemp2.length > 0){ let r=''; ToDoListTemp2.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
-        console.log('ToDoListTemp3: ' + ToDoListTemp3.length);
-        if(ToDoListTemp3.length > 0){ let r=''; ToDoListTemp3.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
-        console.log('List: ' + List.length);
-        if(List.length > 0){ let r=''; List.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
+        
         let ListToSearch = '';
         let searchedToDos = '';
 
         ListToSearch = determinateListByPrioririty();
 
-        console.log('ListToSearch: ' + ListToSearch.length);
-        if(ListToSearch.length > 0){ let r=''; ListToSearch.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
         searchedToDos = ListToSearch.filter(
             (todo) => {
                 const todoText = todo.text.toLowerCase();
@@ -184,20 +152,11 @@ function ToDoContextProvider({ children }) {
             }
         );
         setToDoListTemp3(searchedToDos);
-        console.log('searchedToDos: ' +searchedToDos.length);
-        if(searchedToDos.length > 0){ let r=''; searchedToDos.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
-
         setSearchValue(Text);
-        console.log('+++++++ End findToDoByText +++++++');
     }
 
-
     const addToDo = (ToDo) => {
-        console.log('addToDo');
-        console.log('ToDo: '+ToDo.text+', priority:'+ToDo.priority);
 
-        console.log('ToDoList: ' + ToDoList.length);
-        if(ToDoList.length > 0){ let r=''; ToDoList.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
         const newToDoList = [...ToDoList];
         let ToDoObj = {
             id: (Math.floor(Math.random() * 100) + Math.floor(Math.random() * 1000)),
@@ -208,20 +167,12 @@ function ToDoContextProvider({ children }) {
         newToDoList.push(ToDoObj);
         saveToDos(newToDoList);
 
-
-        console.log('ToDoListTemp: ' + ToDoListTemp.length);
-        if(ToDoListTemp.length > 0){ let r=''; ToDoListTemp.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
-
         const newToDoListTemp = [...ToDoListTemp];
         if (filterOption === 0 || filterOption === 2) {
             newToDoListTemp.push(ToDoObj); 
         }
         setToDoListTemp(newToDoListTemp);
        
-
-        console.log('ToDoListTemp2: ' + ToDoListTemp2.length);
-        if(ToDoListTemp2.length > 0){ let r=''; ToDoListTemp2.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
-
         if( (ToDoListTemp2.length > 0) &&
             (filterOption === 0 || filterOption === 2) && 
             (priority === 0 || ToDo.priority === priority)
@@ -231,15 +182,11 @@ function ToDoContextProvider({ children }) {
             setToDoListTemp2(newToDoListTemp);
         }
 
-        console.log('ToDoListTemp3: ' + ToDoListTemp3.length);
-        if(ToDoListTemp3.length > 0){ let r=''; ToDoListTemp3.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
-
         if(  (ToDoListTemp3.length > 0) &&
             (filterOption === 0 || filterOption === 2) && 
             (priority === 0 || ToDo.priority === priority)
         ){
             if(ToDo.text.includes(searchValue)){
-                console.log('si coincide');
                 let newToDoListTemp = [...ToDoListTemp3];
                 newToDoListTemp.push(ToDoObj); 
                 setToDoListTemp3(newToDoListTemp);
@@ -250,27 +197,11 @@ function ToDoContextProvider({ children }) {
     };
 
     const completeToDo = (text) => {
-        console.log('completeToDo');
-        console.log('ToDoList: ' + ToDoList.length);
-        if(ToDoList.length > 0){ let r=''; ToDoList.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
-        console.log('ToDoListTemp: ' + ToDoListTemp.length );
-        if(ToDoListTemp.length > 0){let r=''; ToDoListTemp.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
-        console.log('ToDoListTemp2: ' + ToDoListTemp2.length );
-        if(ToDoListTemp2.length > 0){ let r=''; ToDoListTemp2.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
-        console.log('ToDoListTemp3: ' + ToDoListTemp3.length);
-        if(ToDoListTemp3.length > 0){ let r=''; ToDoListTemp3.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
-        console.log('List: ' + List.length);
-        if(List.length > 0){ let r=''; List.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
 
-        console.log('text: '+text);
-
-        console.log('completeToDo1');
         const newToDoList = [...ToDoList];
         const index = newToDoList.findIndex((todo) => todo.text === text);
         newToDoList[index].completed = newToDoList[index].completed !== true ? true : false;
         saveToDos(newToDoList);
-        console.log('newToDoList: ' + newToDoList.length);
-        if(newToDoList.length > 0){ let r=''; newToDoList.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
 
         if(filterOption === 1 || filterOption === 2){
             const newToDoListTemp = [...ToDoListTemp];
@@ -342,21 +273,21 @@ function ToDoContextProvider({ children }) {
     }
 
     //List Data Validation
-    console.log('==== Init Before validate ====');
-    console.log('ToDoList: ' + ToDoList.length);
-    if(ToDoList.length > 0){ let r=''; ToDoList.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
-    console.log('ToDoListTemp: ' + ToDoListTemp.length );
-    if(ToDoListTemp.length > 0){let r=''; ToDoListTemp.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
-    console.log('ToDoListTemp2: ' + ToDoListTemp2.length );
-    if(ToDoListTemp2.length > 0){ let r=''; ToDoListTemp2.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
-    console.log('ToDoListTemp3: ' + ToDoListTemp3.length);
-    if(ToDoListTemp3.length > 0){ let r=''; ToDoListTemp3.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
-    console.log('List: ' + List.length);
-    if(List.length > 0){ let r=''; List.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
-    console.log('filterOption: ' + filterOption);
-    console.log('priority: ' + priority);
-    console.log('searchValue: ' + searchValue.length + " " + searchValue);
-    console.log('==== End Before validate ====');
+    // console.log('==== Init Before validate ====');
+    // console.log('ToDoList: ' + ToDoList.length);
+    // if(ToDoList.length > 0){ let r=''; ToDoList.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
+    // console.log('ToDoListTemp: ' + ToDoListTemp.length );
+    // if(ToDoListTemp.length > 0){let r=''; ToDoListTemp.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
+    // console.log('ToDoListTemp2: ' + ToDoListTemp2.length );
+    // if(ToDoListTemp2.length > 0){ let r=''; ToDoListTemp2.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
+    // console.log('ToDoListTemp3: ' + ToDoListTemp3.length);
+    // if(ToDoListTemp3.length > 0){ let r=''; ToDoListTemp3.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
+    // console.log('List: ' + List.length);
+    // if(List.length > 0){ let r=''; List.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r); }
+    // console.log('filterOption: ' + filterOption);
+    // console.log('priority: ' + priority);
+    // console.log('searchValue: ' + searchValue.length + " " + searchValue);
+    // console.log('==== End Before validate ====');
 
     if (ToDoListTemp.length > 0) 
     {
@@ -389,9 +320,9 @@ function ToDoContextProvider({ children }) {
     const totalToDos = ToDoList.length;
     const totalCompletedToDos = completedToDos().length;
 
-    console.log('List: ' + List.length);
-    if(List.length > 0){ let r=''; List.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r) }
-    console.log('--------- End ToDoContextProvider ---------');
+    // console.log('List: ' + List.length);
+    // if(List.length > 0){ let r=''; List.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r) }
+    // console.log('--------- End ToDoContextProvider ---------');
     return (
         <ToDoContext.Provider value={{
             List,
