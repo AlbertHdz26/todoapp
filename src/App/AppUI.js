@@ -43,9 +43,13 @@ function AppUI() {
             <Row>
                 <FilterOptions />
                 <ToDoList>
+                    {/* {console.log('%%% Init ToDoList %%%')} */}
                     {(!loading && totalToDos === 0) && <EmptyToDo />}
                     {loading && <LoadingToDoList/>}
                     {error && <TodoError />}
+                    {/* {console.log('List: '+List.length)} */}
+
+                    {/* {List.forEach(function(jsonObj) { console.log(jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority) } ) }  */}
 
                     {List.map(todo => (
                         <ToDoItem
@@ -55,6 +59,7 @@ function AppUI() {
                             completed={todo.completed}
                         />
                     ))}
+                    {/* {console.log('%%% End ToDoList %%%')} */}
                 </ToDoList>
                 <ModalForm />
             </Row>

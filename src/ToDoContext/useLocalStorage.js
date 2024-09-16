@@ -4,6 +4,7 @@ import React from "react";
 function useLocalStorage(itemName, initialValue) {
 
   const [item, setItem] = React.useState(initialValue);
+  const [itemTemp, setItemTemp] = React.useState(item);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(false);
 
@@ -20,8 +21,10 @@ function useLocalStorage(itemName, initialValue) {
         } else {
           parsedItem = JSON.parse(localStorageItem);
           setItem(parsedItem);
+          setItemTemp(parsedItem);
         }
         setLoading(false);
+        
       } catch (error) {
         setLoading(false);
         setError(true);
@@ -37,6 +40,8 @@ function useLocalStorage(itemName, initialValue) {
   return {
     item,
     saveItem,
+    itemTemp,
+    setItemTemp,
     loading,
     error
   };

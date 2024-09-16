@@ -21,7 +21,12 @@ function ToDoItem(props) {
             <i className="bi bi-trash-fill IconItemDelete"
                 onClick={ () => deleteToDo(props.text) }
             ></i>
-            <p className="priority"><b>Priority:</b> {props.priority} <i className={`bi bi-flag-fill flag-${props.priority}`}></i></p>
+            <p className="priority"><b>Priority: </b>  
+                {props.priority === 1 && "baja "} 
+                {props.priority === 2 && "media "} 
+                {props.priority === 3 && "alta "} 
+                <i className={`bi bi-flag-fill flag-${props.priority}`}></i>
+            </p>
         </div>
     );
 }

@@ -14,8 +14,9 @@ function LoadingToDoList() {
                     aria-hidden="true"
                     variant="secondary"
                 />
-                <div>Loading...</div>
+                
             </div>
+            <div className="loading">Loading...</div>
         </>
 
     );

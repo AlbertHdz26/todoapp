@@ -10,14 +10,28 @@
     margin-right: 3px;
 }
 
+.All:hover{
+    background-color: blue;
+}
+
 .Completed{
     background-color: #00c921;
     border-color: #00c921;
 }
 
+.Completed:hover{
+    background-color: #00b11d;
+    border-color: #00b11d;
+}
+
 .Incompleted{
     background-color: #b6b4b4;
     border-color: #b6b4b4;
+}
+
+.Incompleted:hover{
+    background-color: #a7a7a7;
+    border-color: #a7a7a7;
 }
 
 .PriorityFilterSelect{
@@ -31,5 +45,20 @@
     font-weight: bold;
 }
 
+.ToDoFilterOption{
+    font-size: 13px;
+    font-weight: bold;
+}
 
+.ToDoFilterOption-0{
+    color: #0d6efd;
+}
+
+.ToDoFilterOption-1{
+    color: #00c921;
+}
+
+.ToDoFilterOption-2{
+    color: #8d8c8c;
+}
 
