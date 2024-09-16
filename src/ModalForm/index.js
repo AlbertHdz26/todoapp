@@ -32,7 +32,7 @@ function ModalForm() {
             let priority = document.querySelector('input[name="prioridad"]:checked').value;
             let ToDo = {
                 text: text,
-                priority: priority
+                priority: parseInt(priority)
             };
             addToDo(ToDo);
             setShow(false);
@@ -76,21 +76,21 @@ function ModalForm() {
                         <br></br>
 
                         <div className="form-check">
-                            <input className="form-check-input radio" type="radio" name="prioridad" id="radio1" value="baja" defaultChecked/>
+                            <input className="form-check-input radio" type="radio" name="prioridad" id="radio1" value="1" defaultChecked/>
                                 <label className="form-check-label" htmlFor="radio1">
-                                    Baja <i className="bi bi-flag-fill flag-baja"></i>
+                                    Baja <i className="bi bi-flag-fill flag-1"></i>
                                 </label>
                         </div>
                         <div className="form-check">
-                            <input className="form-check-input radio" type="radio" name="prioridad" id="" value="media"/>
+                            <input className="form-check-input radio" type="radio" name="prioridad" id="" value="2"/>
                                 <label className="form-check-label" htmlFor="radio2">
-                                    Media <i className="bi bi-flag-fill flag-media"></i>
+                                    Media <i className="bi bi-flag-fill flag-2"></i>
                                 </label>
                         </div>
                         <div className="form-check">
-                            <input className="form-check-input radio" type="radio" name="prioridad" id="radio3" value="alta"/>
+                            <input className="form-check-input radio" type="radio" name="prioridad" id="radio3" value="3"/>
                                 <label className="form-check-label" htmlFor="radio3">
-                                    Alta <i className="bi bi-flag-fill flag-alta"></i>
+                                    Alta <i className="bi bi-flag-fill flag-3"></i>
                                 </label>
                         </div>
                     </Form>

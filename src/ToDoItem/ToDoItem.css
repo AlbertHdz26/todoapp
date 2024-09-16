@@ -25,6 +25,7 @@
 
 .IconItemCompleted:hover{
     color: #03be22;
+    transform: scale(5) !important;
 }
 
 .IconItemDelete{
@@ -50,14 +51,14 @@
     font-size: 11px;
 }
 
-.flag-baja{
+.flag-1{
     color: #a500a5;
 }
 
-.flag-media{
+.flag-2{
     color: #ffae00;
 }
 
-.flag-alta{
+.flag-3{
     color: #ff0000;
 }

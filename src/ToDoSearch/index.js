@@ -5,8 +5,7 @@ import Form from 'react-bootstrap/Form';
 
 function ToDoSearch(){
     const {searchValue, 
-        findToDoByText,
-        List
+        findToDoByText
     } = React.useContext(ToDoContext);
 
     return(
@@ -16,7 +15,7 @@ function ToDoSearch(){
                 autoFocus
                 value={searchValue}
                 onChange={(event) => {
-                    findToDoByText(event.target.value, List);
+                    findToDoByText(event.target.value);
                 }}
             />
         </>

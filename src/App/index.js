@@ -5,7 +5,9 @@ import { AppUI } from './AppUI'
 function App() {
   return (
     <ToDoContextProvider>
+      {console.log('>>> Init App  - ToDoContextProvider <<<')}
       <AppUI/>
+      {console.log('>>> End App - ToDoContextProvider <<<')}
     </ToDoContextProvider>
   );
 }
