@@ -173,8 +173,7 @@ function ToDoContextProvider({ children }) {
         }
         setToDoListTemp(newToDoListTemp);
        
-        if( (ToDoListTemp2.length > 0) &&
-            (filterOption === 0 || filterOption === 2) && 
+        if( (filterOption === 0 || filterOption === 2) && 
             (priority === 0 || ToDo.priority === priority)
         ){
             let newToDoListTemp = [...ToDoListTemp2];
