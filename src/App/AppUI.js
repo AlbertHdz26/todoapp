@@ -14,6 +14,8 @@ import { FilterOptions } from "../FilterOptions";
 import { LoadingToDoList } from "../LoadingToDoList"
 import { EmptyToDo } from "../EmptyToDo";
 import { TodoError } from "../ToDoError";
+import { ToDoHeader } from "../ToDoHeader";
+import { ToDoSection } from "../ToDoSection";
 
 function AppUI() {
 
@@ -21,48 +23,86 @@ function AppUI() {
         List,
         loading,
         error,
-        totalToDos
+        totalToDos,
+        totalCompletedToDos,
+        searchValue,
+        findToDoByText,
+        getAllToDos,
+        getCompleteToDos,
+        getIncompletedToDos,
+        filterOption,
+        filterByPriority,
+        completeToDo,
+        deleteToDo,
+        addToDo,
+        openModal: show,
+        setOpenModal: setShow,
+        isEmpty
     } = React.useContext(ToDoContext);
 
     return (
         <Container>
-            <Row>
-                <Col>
-                    <Title />
-                    <ToDoCounter />
-                </Col>
-            </Row>
-            <Row>
-                <Col md={11}>
-                    <ToDoSearch />
-                </Col>
-                <Col md={1}>
-                    <CreateButton />
-                </Col>
-            </Row>
-            <Row>
-                <FilterOptions />
-                <ToDoList>
-                    {/* {console.log('%%% Init ToDoList %%%')} */}
-                    {(!loading && totalToDos === 0) && <EmptyToDo />}
-                    {loading && <LoadingToDoList/>}
-                    {error && <TodoError />}
-                    {/* {console.log('List: '+List.length)} */}
-
-                    {/* {List.forEach(function(jsonObj) { console.log(jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority) } ) }  */}
-
-                    {List.map(todo => (
-                        <ToDoItem
-                            key={todo.id}
-                            text={todo.text}
-                            priority={todo.priority}
-                            completed={todo.completed}
+            <ToDoHeader>
+                <Row>
+                    <Col>
+                        <Title />
+                        <ToDoCounter 
+                            totalToDos={totalToDos}
+                            totalCompletedToDos={totalCompletedToDos}
                         />
-                    ))}
-                    {/* {console.log('%%% End ToDoList %%%')} */}
-                </ToDoList>
-                <ModalForm />
-            </Row>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md={11}>
+                        <ToDoSearch 
+                            searchValue={searchValue}
+                            findToDoByText={findToDoByText}
+                        />
+                    </Col>
+                    <Col md={1}>
+                        <CreateButton />
+                    </Col>
+                </Row>
+            </ToDoHeader>
+            
+            <ToDoSection>
+                <Row>
+                    <FilterOptions 
+                        getAllToDos={getAllToDos}
+                        getCompleteToDos={getCompleteToDos}
+                        getIncompletedToDos={getIncompletedToDos}
+                        filterOption={filterOption}
+                        filterByPriority={filterByPriority}
+                    />
+                    <ToDoList>
+                        {/* {console.log('%%% Init ToDoList %%%')} */}
+                        {(!loading && totalToDos === 0) && <EmptyToDo />}
+                        {loading && <LoadingToDoList/>}
+                        {error && <TodoError />}
+                        {/* {console.log('List: '+List.length)} */}
+
+                        {/* {List.forEach(function(jsonObj) { console.log(jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority) } ) }  */}
+
+                        {List.map(todo => (
+                            <ToDoItem
+                                completeToDo={completeToDo}
+                                deleteToDo={deleteToDo}
+                                key={todo.id}
+                                text={todo.text}
+                                priority={todo.priority}
+                                completed={todo.completed}
+                            />
+                        ))}
+                        {/* {console.log('%%% End ToDoList %%%')} */}
+                    </ToDoList>
+                    <ModalForm 
+                        addToDo={addToDo}
+                        show={show}
+                        setShow={setShow}
+                        isEmpty={isEmpty}
+                    />
+                </Row>
+            </ToDoSection>
         </Container>
     );
 }
