@@ -60,7 +60,9 @@ function AppUI() {
                         />
                     </Col>
                     <Col md={1}>
-                        <CreateButton />
+                        <CreateButton 
+                            setOpenModal={setShow}
+                        />
                     </Col>
                 </Row>
             </ToDoHeader>

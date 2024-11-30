@@ -1,14 +1,9 @@
 import React from "react";
 import Button from 'react-bootstrap/Button';
 import './CreateButton.css'
-import { ToDoContext } from "../ToDoContext";
 
-function CreateButton() {
-
-    const {
-        setOpenModal
-    } = React.useContext(ToDoContext);
-
+function CreateButton({setOpenModal}) {
+    console.log("log1 - setOpenModal: "+setOpenModal);
     return (
         <>
             <Button
