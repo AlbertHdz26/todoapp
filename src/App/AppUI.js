@@ -27,6 +27,7 @@ function AppUI() {
         totalCompletedToDos,
         searchValue,
         findToDoByText,
+        //setOpenModal,
         getAllToDos,
         getCompleteToDos,
         getIncompletedToDos,
@@ -60,7 +61,9 @@ function AppUI() {
                         />
                     </Col>
                     <Col md={1}>
-                        <CreateButton />
+                        <CreateButton 
+                            setOpenModal={setShow}
+                        />
                     </Col>
                 </Row>
             </ToDoHeader>

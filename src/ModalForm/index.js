@@ -5,8 +5,8 @@ import Modal from 'react-bootstrap/Modal';
 import './ModalForm.css';
 
 function ModalForm({addToDo,
-                    openModal: show,
-                    setOpenModal: setShow,
+                    show,
+                    setShow,
                     isEmpty}) {
 
     const handleClose = () => {
