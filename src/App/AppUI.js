@@ -27,7 +27,6 @@ function AppUI() {
         totalCompletedToDos,
         searchValue,
         findToDoByText,
-        //setOpenModal,
         getAllToDos,
         getCompleteToDos,
         getIncompletedToDos,
