@@ -2,17 +2,12 @@ import React from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-import { ToDoContext } from "../ToDoContext";
 import './ModalForm.css';
 
-function ModalForm() {
-
-    const {
-        addToDo,
-        openModal: show,
-        setOpenModal: setShow,
-        isEmpty
-    } = React.useContext(ToDoContext);
+function ModalForm({addToDo,
+                    openModal: show,
+                    setOpenModal: setShow,
+                    isEmpty}) {
 
     const handleClose = () => {
         setShow(false);

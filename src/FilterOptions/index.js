@@ -1,22 +1,17 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import './FilterOptions.css'
-import { ToDoContext } from "../ToDoContext";
 import Form from 'react-bootstrap/Form';
 import Row from "react-bootstrap/Row";
 import Col from 'react-bootstrap/Col';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 
-function FilterOptions() {
-
-    const {
-        getAllToDos,
-        getCompleteToDos,
-        getIncompletedToDos,
-        filterOption,
-        filterByPriority
-    } = React.useContext(ToDoContext);
+function FilterOptions({getAllToDos,
+                        getCompleteToDos,
+                        getIncompletedToDos,
+                        filterOption,
+                        filterByPriority}) {
 
     return (
         <>

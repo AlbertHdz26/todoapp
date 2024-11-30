@@ -1,12 +1,8 @@
 import React from "react";
-import { ToDoContext } from "../ToDoContext";
 import './ToDoSearch.css'
 import Form from 'react-bootstrap/Form';
 
-function ToDoSearch(){
-    const {searchValue, 
-        findToDoByText
-    } = React.useContext(ToDoContext);
+function ToDoSearch({searchValue, findToDoByText}){
 
     return(
         <>
