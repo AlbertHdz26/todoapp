@@ -1,14 +1,14 @@
 import React from "react";
 import { useLocalStorage } from "./useLocalStorage";
 
-const ToDoContext = React.createContext();
 // let ToDoList = [
 //     { id : 1, text : "Estudiar ReactJs", completed : false },
 //     { id : 2, text : "Estudiar SpringBoot", completed : true },
 //     { id : 3, text : "Estudiar Ingles", completed : false }
 // ];
 
-function ToDoContextProvider({ children }) {
+function useToDos() {
+    
     const {
         item: ToDoList,
         saveItem: saveToDos,
@@ -322,8 +322,7 @@ function ToDoContextProvider({ children }) {
     // console.log('List: ' + List.length);
     // if(List.length > 0){ let r=''; List.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r) }
     // console.log('--------- End ToDoContextProvider ---------');
-    return (
-        <ToDoContext.Provider value={{
+    return {
             List,
             getAllToDos,
             getCompleteToDos,
@@ -343,11 +342,7 @@ function ToDoContextProvider({ children }) {
             totalCompletedToDos,
             loading,
             error
-        }}>
-            {children}
-        </ToDoContext.Provider>
-    );
- 
+        };
 }
 
-export { ToDoContext, ToDoContextProvider };
+export { useToDos };
