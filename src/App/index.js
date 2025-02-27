@@ -80,10 +80,24 @@ function App() {
                         totalToDos={totalToDos}
                         error={error}
                         list={List}
+                        searchValue={searchValue}
                         /* EmptyToDo={() => <EmptyToDo />} */
                         /* LoadingToDoList={() => <LoadingToDoList />} */
+                        /* EmptySearchResult={(searchValue) => <p> No results found for {searchValue} </p> } */
                         /* TodoError={() => <TodoError />} */
-                        todo={todo => (
+
+                        // todo={todo => (
+                        //     <ToDoItem
+                        //         completeToDo={completeToDo}
+                        //         deleteToDo={deleteToDo}
+                        //         key={todo.id}
+                        //         text={todo.text}
+                        //         priority={todo.priority}
+                        //         completed={todo.completed}
+                        //     />
+                        // )}
+                    >
+                        {todo => (
                             <ToDoItem
                                 completeToDo={completeToDo}
                                 deleteToDo={deleteToDo}
@@ -93,8 +107,8 @@ function App() {
                                 completed={todo.completed}
                             />
                         )}
-                        
-                    />
+                    </ToDoList>    
+                    
 
                   <ModalForm 
                       addToDo={addToDo}
