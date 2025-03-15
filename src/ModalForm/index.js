@@ -1,14 +1,38 @@
+/**
+ * @fileoverview Modal form component for creating new todos
+ * @author [Alberto Hernandez]
+ * @version 1.0.0
+ */
+
 import React from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import './ModalForm.css';
 
-function ModalForm({addToDo,
-                    show,
-                    setShow,
-                    isEmpty}) {
+/**
+ * @typedef {Object} ToDo
+ * @property {string} text - The todo text content
+ * @property {number} priority - Priority level (1: Low, 2: Medium, 3: High)
+ */
 
+/**
+ * Modal form component for creating new todos
+ * @param {Object} props Component props
+ * @param {function(ToDo): void} props.addToDo - Function to add a new todo
+ * @param {boolean} props.show - Controls modal visibility
+ * @param {function(boolean): void} props.setShow - Function to update modal visibility
+ * @param {function(string): boolean} props.isEmpty - Function to validate if text is empty
+ * @returns {JSX.Element} Modal form component
+ */
+function ModalForm({addToDo,
+                   show,
+                   setShow,
+                   isEmpty}) {
+
+    /**
+     * Handles modal close and form reset
+     */
     const handleClose = () => {
         setShow(false);
         setNewTodoValue('');
@@ -16,9 +40,12 @@ function ModalForm({addToDo,
     }
 
     const [newTodoValue, setNewTodoValue] = React.useState('');
-
     const [validated, setValidated] = React.useState(false);
 
+    /**
+     * Handles form submission
+     * @param {React.FormEvent} event - Form submission event
+     */
     const onSubmit = (event) => {
         event.preventDefault();
 
@@ -38,6 +65,10 @@ function ModalForm({addToDo,
         }
     };
 
+    /**
+     * Handles input change
+     * @param {React.ChangeEvent<HTMLInputElement>} event - Input change event
+     */
     const onChange = (event) => {
         setNewTodoValue(event.target.value);
     };

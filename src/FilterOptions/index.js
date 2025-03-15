@@ -11,7 +11,9 @@ function FilterOptions({getAllToDos,
                         getCompleteToDos,
                         getIncompletedToDos,
                         filterOption,
-                        filterByPriority}) {
+                        filterByPriority,
+                        loading
+                    }) {
 
     return (
         <>
@@ -19,18 +21,21 @@ function FilterOptions({getAllToDos,
                 <Row className="d-flex align-items-end">
                     <Col md={4} className="FilterButtons">
                         
-                        <Button size="sm" variant="primary" className="FilterButton All"
+                        <Button size="sm" variant="primary" className="FilterButton All" 
+                            disabled={loading}
                             onClick={() => { getAllToDos() }}
                         >
                             All ToDos
                         </Button>
                         
-                        <Button size="sm" variant="success" className="FilterButton Completed"
+                        <Button size="sm" variant="success" className="FilterButton Completed" 
+                            disabled={loading}
                             onClick={() => { getCompleteToDos() }}
                         >
                             Completed ToDos
                         </Button>
-                        <Button size="sm" variant="secondary" className="FilterButton Incompleted"
+                        <Button size="sm" variant="secondary" className="FilterButton Incompleted" 
+                            disabled={loading}
                             onClick={() => { getIncompletedToDos() }}
                         >
                             Incompleted ToDos
@@ -44,6 +49,7 @@ function FilterOptions({getAllToDos,
                             id="prioritySelect"
                             className="form-select form-select-sm" 
                             aria-label=".form-select-sm example"
+                            disabled={loading}
                             onChange={(event) => {
                                 filterByPriority(parseInt(event.target.value));
                             }}

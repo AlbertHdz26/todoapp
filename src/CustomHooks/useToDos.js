@@ -7,6 +7,18 @@ import { useLocalStorage } from "./useLocalStorage";
 //     { id : 3, text : "Estudiar Ingles", completed : false }
 // ];
 
+/**
+ * @typedef {Object} ToDo
+ * @property {number} id - Unique identifier for the todo
+ * @property {string} text - The todo text content
+ * @property {number} priority - Priority level (1: Low, 2: Medium, 3: High)
+ * @property {boolean} completed - Completion status
+ */
+
+/**
+ * Custom hook for managing todos with filtering, search and CRUD operations
+ * @returns {Object} Todo operations and state
+ */
 function useToDos() {
     
     const {
@@ -77,6 +89,10 @@ function useToDos() {
         return incompletedToDosList;
     }
 
+    /**
+     * Filters todos by priority level
+     * @param {number} priorityOption - Priority level (0: All, 1: Low, 2: Medium, 3: High)
+     */
     const filterByPriority = (priorityOption) => {
 
         switch (priorityOption) {
@@ -137,6 +153,10 @@ function useToDos() {
         setSearchValue('');
     }
 
+    /**
+     * Searches todos by text
+     * @param {string} Text - Search text to filter todos
+     */
     const findToDoByText = (Text) => {
         
         let ListToSearch = '';
@@ -155,6 +175,10 @@ function useToDos() {
         setSearchValue(Text);
     }
 
+    /**
+     * Adds a new todo to the list
+     * @param {ToDo} ToDo - The todo object to add
+     */
     const addToDo = (ToDo) => {
 
         const newToDoList = [...ToDoList];
@@ -195,6 +219,10 @@ function useToDos() {
 
     };
 
+    /**
+     * Toggles the completion status of a todo
+     * @param {string} text - Text of the todo to complete
+     */
     const completeToDo = (text) => {
 
         const newToDoList = [...ToDoList];
@@ -220,6 +248,10 @@ function useToDos() {
         }
     };
 
+    /**
+     * Removes a todo from all lists
+     * @param {string} text - Text of the todo to delete
+     */
     const deleteToDo = (text) => {
         const newToDoList = [...ToDoList];
         const index = newToDoList.findIndex((todo) => todo.text === text);
@@ -248,6 +280,11 @@ function useToDos() {
         }
     };
 
+    /**
+     * Checks if a string is empty or contains only whitespace
+     * @param {string} text - Text to validate
+     * @returns {boolean} True if empty, false otherwise
+     */
     const isEmpty = (text) => {
         let value = "" + text.trim();
         if (value == null || value.length === 0 || /^\s+$/.test(value)) {
@@ -256,6 +293,10 @@ function useToDos() {
             return false;
     };
 
+    /**
+     * Determines which list to use based on current priority filter
+     * @returns {ToDo[]} Filtered list of todos
+     */
     const determinateListByPrioririty = () => {
         let Lista = '';
         switch (priority) {
@@ -323,26 +364,30 @@ function useToDos() {
     // if(List.length > 0){ let r=''; List.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r) }
     // console.log('--------- End ToDoContextProvider ---------');
     return {
-            List,
-            getAllToDos,
-            getCompleteToDos,
-            getIncompletedToDos,
-            filterOption,
-            findToDoByText,
-            searchValue,
-            setSearchValue,
-            filterByPriority,
-            openModal,
-            setOpenModal,
-            addToDo,
-            completeToDo,
-            deleteToDo,
-            isEmpty,
-            totalToDos,
-            totalCompletedToDos,
-            loading,
-            error
-        };
+        /**
+         * Current filtered and processed list of todos
+         * @type {ToDo[]}
+         */
+        List,
+        getAllToDos,
+        getCompleteToDos,
+        getIncompletedToDos,
+        filterOption,
+        findToDoByText,
+        searchValue,
+        setSearchValue,
+        filterByPriority,
+        openModal,
+        setOpenModal,
+        addToDo,
+        completeToDo,
+        deleteToDo,
+        isEmpty,
+        totalToDos,
+        totalCompletedToDos,
+        loading,
+        error
+    };
 }
 
 export { useToDos };
