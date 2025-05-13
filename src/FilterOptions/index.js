@@ -15,35 +15,58 @@ function FilterOptions({getAllToDos,
                         loading
                     }) {
 
+    const [selectedPriority, setSelectedPriority] = React.useState('');
+    const [selectedIdPriority, setSelectedIdPriority] = React.useState('');
+
+    const handlePriorityChange = (event) => {
+        const value = parseInt(event.target.value);
+        setSelectedIdPriority(value);
+
+        const label = event.target.options[event.target.selectedIndex].text;
+        setSelectedPriority(value === 0 ? '' : label);
+    };
+
+    const resetPriorityNameFlag = () => {
+        setSelectedPriority('');
+    };
+
     return (
         <>
-            <Form className="FilterOptions">
-                <Row className="d-flex align-items-end">
-                    <Col md={4} className="FilterButtons">
+            <Form className="mt-2">
+                <Row className="FilterOptions">
+                    <Col sm={12} md={5} className="FilterButtons">
                         
                         <Button size="sm" variant="primary" className="FilterButton All" 
                             disabled={loading}
-                            onClick={() => { getAllToDos() }}
+                            onClick={() => { 
+                                getAllToDos(); 
+                                resetPriorityNameFlag();
+                            }}
                         >
                             All ToDos
                         </Button>
                         
                         <Button size="sm" variant="success" className="FilterButton Completed" 
                             disabled={loading}
-                            onClick={() => { getCompleteToDos() }}
+                            onClick={() => { 
+                                getCompleteToDos();
+                                resetPriorityNameFlag();
+                            }}
                         >
                             Completed ToDos
                         </Button>
                         <Button size="sm" variant="secondary" className="FilterButton Incompleted" 
                             disabled={loading}
-                            onClick={() => { getIncompletedToDos() }}
+                            onClick={() => { 
+                                getIncompletedToDos();
+                                resetPriorityNameFlag();
+                            }}
                         >
                             Incompleted ToDos
                         </Button>
-
                     </Col>
-                    <Col md={2}>
-                        <label><b>Priority</b></label>
+                    <Col sm={12} md={7} className="priority-selector">
+                        <label><b>Priority:</b></label>
                         <select 
                             name="prioritySelect"
                             id="prioritySelect"
@@ -52,23 +75,33 @@ function FilterOptions({getAllToDos,
                             disabled={loading}
                             onChange={(event) => {
                                 filterByPriority(parseInt(event.target.value));
+                                handlePriorityChange(event);
                             }}
                         >
                             <option value="0" defaultValue>- Select priority -</option>
                             <option value="1">Baja</option>
                             <option value="2">Media</option>
                             <option value="3">Alta</option>
-                        </select>
+                        </select>                       
                     </Col>
                 </Row>
                 <Row>
-                <Col md={4}>
-                    <label className={`ToDoFilterOption ToDoFilterOption-${filterOption}`}>
-                        {filterOption === 0 && "All ToDos"}
-                        {filterOption === 1 && "Completed ToDos"}
-                        {filterOption === 2 && "Incompleted ToDos"}
-                    </label>
-                </Col>
+                    <Col md={12} className="active-filters">
+                        <div className="filter-labels">
+                            <span className="filter-type">
+                                <i className="bi bi-funnel-fill me-2"></i>
+                                <label className={`ToDoFilterOption ToDoFilterOption-${filterOption}`}>
+                                    {filterOption === 0 && "All ToDos - "}
+                                    {filterOption === 1 && "Completed - "}
+                                    {filterOption === 2 && "Incompleted ToDos - "}
+                                </label>
+                                <span className="filter-priority">
+                                    <i className={`bi bi-flag-fill flag-${selectedIdPriority}`}></i>
+                                    <label>{selectedPriority}</label>
+                                </span>
+                            </span>
+                        </div>
+                    </Col>
                 </Row>
             </Form >
         </>

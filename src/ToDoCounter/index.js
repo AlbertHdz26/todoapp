@@ -6,9 +6,8 @@ function ToDoCounter({totalToDos, totalCompletedToDos}){
     return (
         <>
             <p className="ToDoCounter">
-                Tienes <span className="TextBold">{totalCompletedToDos} </span> 
-                ToDos completados de <span className="TextBold">{totalToDos} </span> 
-                en total.
+                You have <span className="TextBold">{totalCompletedToDos} </span> 
+                ToDos completed from <span className="TextBold">{totalToDos} </span> 
             </p>
         </>
     );

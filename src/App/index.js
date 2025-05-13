@@ -111,18 +111,21 @@ function App() {
                         /* LoadingToDoList={() => <LoadingToDoList />} */
                         /* EmptySearchResult={(searchValue) => <p> No results found for {searchValue} </p> } */
                         /* TodoError={() => <TodoError />} */
-
-                        // todo={todo => (
-                        //     <ToDoItem
-                        //         completeToDo={completeToDo}
-                        //         deleteToDo={deleteToDo}
-                        //         key={todo.id}
-                        //         text={todo.text}
-                        //         priority={todo.priority}
-                        //         completed={todo.completed}
-                        //     />
-                        // )}
+                        
+                        //Render prop to render each todo item
+                        todo={todo => (
+                            <ToDoItem
+                                completeToDo={completeToDo}
+                                deleteToDo={deleteToDo}
+                                key={todo.id}
+                                text={todo.text}
+                                priority={todo.priority}
+                                completed={todo.completed}
+                            />
+                        )}
                     >
+                        {/* 
+                        Render function to render each todo item 
                         {todo => (
                             <ToDoItem
                                 completeToDo={completeToDo}
@@ -133,6 +136,7 @@ function App() {
                                 completed={todo.completed}
                             />
                         )}
+                        */}
                     </ToDoList>    
                     
 
