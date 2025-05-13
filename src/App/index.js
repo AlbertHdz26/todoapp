@@ -18,7 +18,6 @@ import { FilterOptions } from "../FilterOptions";
 import { ToDoHeader } from "../ToDoHeader";
 import { ToDoSection } from "../ToDoSection";
 import PropTypes from 'prop-types';
-import LoadingToDoCounter from "../LoadingToDoCounter";
 
 /**
  * Main application component that provides todo management functionality
@@ -64,13 +63,21 @@ function App() {
                 <Row>
                     <Col>
                         <Title />
+                        {/*
                         {loading && <LoadingToDoCounter />}
                         {!loading &&
                             <ToDoCounter 
+                                loading={loading}
                                 totalToDos={totalToDos}
                                 totalCompletedToDos={totalCompletedToDos}
                             />
                         }
+                        */}
+                        <ToDoCounter 
+                            loading={loading}
+                            totalToDos={totalToDos}
+                            totalCompletedToDos={totalCompletedToDos}
+                        />
                     </Col>
                 </Row>
                 <Row>

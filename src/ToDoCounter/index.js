@@ -1,14 +1,19 @@
 import React from "react";
 import "./ToDoCounter.css"
+import LoadingToDoCounter from "../LoadingToDoCounter";
 
-function ToDoCounter({totalToDos, totalCompletedToDos}){
+function ToDoCounter({loading, totalToDos, totalCompletedToDos}){
 
     return (
         <>
-            <p className="ToDoCounter">
-                You have <span className="TextBold">{totalCompletedToDos} </span> 
-                ToDos completed from <span className="TextBold">{totalToDos} </span> 
-            </p>
+            {loading && <LoadingToDoCounter />}
+
+            {!loading && 
+                <p className="ToDoCounter">
+                    You have <span className="TextBold">{totalCompletedToDos} </span> 
+                    ToDos completed from <span className="TextBold">{totalToDos} </span> 
+                </p>
+            }
         </>
     );
 
