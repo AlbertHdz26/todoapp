@@ -18,6 +18,7 @@ import { FilterOptions } from "../FilterOptions";
 import { ToDoHeader } from "../ToDoHeader";
 import { ToDoSection } from "../ToDoSection";
 import PropTypes from 'prop-types';
+import { ToDoContainer } from "../TodoContainer";
 
 /**
  * Main application component that provides todo management functionality
@@ -59,102 +60,104 @@ function App() {
 
     return (
         <Container>
-            <ToDoHeader>
-                <Row>
-                    <Col>
-                        <Title />
-                        {/*
-                        {loading && <LoadingToDoCounter />}
-                        {!loading &&
+            <ToDoContainer>
+                <ToDoHeader>
+                    <Row>
+                        <Col>
+                            <Title />
+                            {/*
+                            {loading && <LoadingToDoCounter />}
+                            {!loading &&
+                                <ToDoCounter 
+                                    loading={loading}
+                                    totalToDos={totalToDos}
+                                    totalCompletedToDos={totalCompletedToDos}
+                                />
+                            }
+                            */}
                             <ToDoCounter 
                                 loading={loading}
                                 totalToDos={totalToDos}
                                 totalCompletedToDos={totalCompletedToDos}
                             />
-                        }
-                        */}
-                        <ToDoCounter 
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={11}>
+                            <ToDoSearch 
+                                loading={loading}
+                                searchValue={searchValue}
+                                findToDoByText={findToDoByText}
+                            />
+                        </Col>
+                        <Col md={1}>
+                            <CreateButton 
+                                loading={loading}
+                                setOpenModal={setShow}
+                            />
+                        </Col>
+                    </Row>
+                </ToDoHeader>
+            
+                <ToDoSection>
+                    <Row>
+                        <FilterOptions 
+                            getAllToDos={getAllToDos}
+                            getCompleteToDos={getCompleteToDos}
+                            getIncompletedToDos={getIncompletedToDos}
+                            filterOption={filterOption}
+                            filterByPriority={filterByPriority}
+                            loading={loading}
+                        />
+
+                        <ToDoList
                             loading={loading}
                             totalToDos={totalToDos}
-                            totalCompletedToDos={totalCompletedToDos}
-                        />
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md={11}>
-                        <ToDoSearch 
-                            loading={loading}
+                            error={error}
+                            list={List}
                             searchValue={searchValue}
-                            findToDoByText={findToDoByText}
-                        />
-                    </Col>
-                    <Col md={1}>
-                        <CreateButton 
-                            setOpenModal={setShow}
-                            loading={loading}
-                        />
-                    </Col>
-                </Row>
-            </ToDoHeader>
-          
-            <ToDoSection>
-                <Row>
-                    <FilterOptions 
-                        getAllToDos={getAllToDos}
-                        getCompleteToDos={getCompleteToDos}
-                        getIncompletedToDos={getIncompletedToDos}
-                        filterOption={filterOption}
-                        filterByPriority={filterByPriority}
-                        loading={loading}
-                    />
-
-                    <ToDoList
-                        loading={loading}
-                        totalToDos={totalToDos}
-                        error={error}
-                        list={List}
-                        searchValue={searchValue}
-                        /* EmptyToDo={() => <EmptyToDo />} */
-                        /* LoadingToDoList={() => <LoadingToDoList />} */
-                        /* EmptySearchResult={(searchValue) => <p> No results found for {searchValue} </p> } */
-                        /* TodoError={() => <TodoError />} */
+                            /* EmptyToDo={() => <EmptyToDo />} */
+                            /* LoadingToDoList={() => <LoadingToDoList />} */
+                            /* EmptySearchResult={(searchValue) => <p> No results found for {searchValue} </p> } */
+                            /* TodoError={() => <TodoError />} */
+                            
+                            //Render prop to render each todo item
+                            todo={todo => (
+                                <ToDoItem
+                                    completeToDo={completeToDo}
+                                    deleteToDo={deleteToDo}
+                                    key={todo.id}
+                                    text={todo.text}
+                                    priority={todo.priority}
+                                    completed={todo.completed}
+                                />
+                            )}
+                        >
+                            {/* 
+                            Render function to render each todo item 
+                            {todo => (
+                                <ToDoItem
+                                    completeToDo={completeToDo}
+                                    deleteToDo={deleteToDo}
+                                    key={todo.id}
+                                    text={todo.text}
+                                    priority={todo.priority}
+                                    completed={todo.completed}
+                                />
+                            )}
+                            */}
+                        </ToDoList>    
                         
-                        //Render prop to render each todo item
-                        todo={todo => (
-                            <ToDoItem
-                                completeToDo={completeToDo}
-                                deleteToDo={deleteToDo}
-                                key={todo.id}
-                                text={todo.text}
-                                priority={todo.priority}
-                                completed={todo.completed}
-                            />
-                        )}
-                    >
-                        {/* 
-                        Render function to render each todo item 
-                        {todo => (
-                            <ToDoItem
-                                completeToDo={completeToDo}
-                                deleteToDo={deleteToDo}
-                                key={todo.id}
-                                text={todo.text}
-                                priority={todo.priority}
-                                completed={todo.completed}
-                            />
-                        )}
-                        */}
-                    </ToDoList>    
-                    
 
-                  <ModalForm 
-                      addToDo={addToDo}
-                      show={show}
-                      setShow={setShow}
-                      isEmpty={isEmpty}
-                  />
-              </Row>
-          </ToDoSection>
+                    <ModalForm 
+                        addToDo={addToDo}
+                        show={show}
+                        setShow={setShow}
+                        isEmpty={isEmpty}
+                    />
+                </Row>
+            </ToDoSection>
+          </ToDoContainer>
       </Container>
   );
 

@@ -26,8 +26,9 @@ function FilterOptions({getAllToDos,
         setSelectedPriority(value === 0 ? '' : label);
     };
 
-    const resetPriorityNameFlag = () => {
+    const resetPriorityFlagColorAndName = () => {
         setSelectedPriority('');
+        setSelectedIdPriority(0);
     };
 
     return (
@@ -40,7 +41,7 @@ function FilterOptions({getAllToDos,
                             disabled={loading}
                             onClick={() => { 
                                 getAllToDos(); 
-                                resetPriorityNameFlag();
+                                resetPriorityFlagColorAndName();
                             }}
                         >
                             All ToDos
@@ -50,7 +51,7 @@ function FilterOptions({getAllToDos,
                             disabled={loading}
                             onClick={() => { 
                                 getCompleteToDos();
-                                resetPriorityNameFlag();
+                                resetPriorityFlagColorAndName();
                             }}
                         >
                             Completed ToDos
@@ -59,7 +60,7 @@ function FilterOptions({getAllToDos,
                             disabled={loading}
                             onClick={() => { 
                                 getIncompletedToDos();
-                                resetPriorityNameFlag();
+                                resetPriorityFlagColorAndName();
                             }}
                         >
                             Incompleted ToDos
