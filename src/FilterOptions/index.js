@@ -80,9 +80,9 @@ function FilterOptions({getAllToDos,
                             }}
                         >
                             <option value="0" defaultValue>- Select priority -</option>
-                            <option value="1">Baja</option>
-                            <option value="2">Media</option>
-                            <option value="3">Alta</option>
+                            <option value="1">Low</option>
+                            <option value="2">Medium</option>
+                            <option value="3">High</option>
                         </select>                       
                     </Col>
                 </Row>
