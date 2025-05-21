@@ -44,9 +44,8 @@ function App() {
         searchValue,            // Current search term
         findToDoByText,         // Search function
         getAllToDos,            // Get all todos function
-        getCompleteToDos,       // Get completed todos function
-        getIncompletedToDos,    // Get incomplete todos function
-        filterOption,           // Current filter option
+        filterByState,         // Filter todos by state (completed/incompleted)
+        filterStateOption,           // Current filter priority option
         filterByPriority,       // Priority filter function
         completeToDo,           // Toggle todo completion
         deleteToDo,             // Delete todo function
@@ -101,9 +100,8 @@ function App() {
                 <Row>
                     <FilterOptions
                         getAllToDos={getAllToDos}
-                        getCompleteToDos={getCompleteToDos}
-                        getIncompletedToDos={getIncompletedToDos}
-                        filterOption={filterOption}
+                        filterByState={filterByState}
+                        filterStateOption={filterStateOption}
                         filterByPriority={filterByPriority}
                         loading={loading}
                     />
@@ -180,9 +178,8 @@ CreateButton.propTypes = {
 
 FilterOptions.propTypes = {
     getAllToDos: PropTypes.func.isRequired,
-    getCompleteToDos: PropTypes.func.isRequired,
-    getIncompletedToDos: PropTypes.func.isRequired,
-    filterOption: PropTypes.number.isRequired,
+    filterByState: PropTypes.func.isRequired,
+    filterStateOption: PropTypes.number.isRequired,
     filterByPriority: PropTypes.func.isRequired
 };
 

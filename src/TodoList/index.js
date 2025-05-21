@@ -4,7 +4,7 @@ import { MessageComponent } from "../MessageComponent";
 import { TodoError } from "../ToDoError";
 
 function ToDoList(props){
-                    //Render prop  - Render function
+                    //***Render prop***  - Render function
     const render = props.todo || props.children; 
 
     return (

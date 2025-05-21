@@ -8,9 +8,8 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 
 
 function FilterOptions({getAllToDos,
-                        getCompleteToDos,
-                        getIncompletedToDos,
-                        filterOption,
+                        filterByState,
+                        filterStateOption,
                         filterByPriority,
                         loading
                     }) {
@@ -50,7 +49,7 @@ function FilterOptions({getAllToDos,
                         <Button size="sm" variant="success" className="FilterButton Completed" 
                             disabled={loading}
                             onClick={() => { 
-                                getCompleteToDos();
+                                filterByState(true);
                                 resetPriorityFlagColorAndName();
                             }}
                         >
@@ -59,7 +58,7 @@ function FilterOptions({getAllToDos,
                         <Button size="sm" variant="secondary" className="FilterButton Incompleted" 
                             disabled={loading}
                             onClick={() => { 
-                                getIncompletedToDos();
+                                filterByState(false);
                                 resetPriorityFlagColorAndName();
                             }}
                         >
@@ -91,10 +90,10 @@ function FilterOptions({getAllToDos,
                         <div className="filter-labels">
                             <span className="filter-type">
                                 <i className="bi bi-funnel-fill me-2"></i>
-                                <label className={`ToDoFilterOption ToDoFilterOption-${filterOption}`}>
-                                    {filterOption === 0 && "All ToDos - "}
-                                    {filterOption === 1 && "Completed - "}
-                                    {filterOption === 2 && "Incompleted ToDos - "}
+                                <label className={`ToDoFilterOption ToDoFilterOption-${filterStateOption}`}>
+                                    {filterStateOption === 0 && "All ToDos - "}
+                                    {filterStateOption === 1 && "Completed - "}
+                                    {filterStateOption === 2 && "Incompleted ToDos - "}
                                 </label>
                                 <span className="filter-priority">
                                     <i className={`bi bi-flag-fill flag-${selectedIdPriority}`}></i>

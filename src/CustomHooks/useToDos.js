@@ -21,137 +21,142 @@ import { useLocalStorage } from "./useLocalStorage";
  */
 function useToDos() {
     
+    
     const {
         item: ToDoList,
         saveItem: saveToDos,
-        itemTemp: ToDoListTemp,
-        setItemTemp: setToDoListTemp,
+        itemFiltered: ToDoListFilteredByState, //State to manage To Dos filtered by state: all todos, completed and incompleted
+        setItemFiltered: setToDoListFilteredByState,
         loading,
         error
     } = useLocalStorage('TODOS_V1', []);
 
+    /**
+    * State to manage the search value in the Todo list
+    * @type {T}
+    */
     const [searchValue, setSearchValue] = React.useState('');
 
+    /**
+    * State to manage the modal visibility
+    * @type {boolean}
+    */
     const [openModal, setOpenModal] = React.useState(false);
 
-    const [ToDoListTemp2, setToDoListTemp2] = React.useState('');
+    /**
+    * State to manage filtered todo list by priority      
+    * @type {ToDo[]}
+    */
+    const [ToDoListByPriority, setToDoListByPriority] = React.useState('');
 
-    const [ToDoListTemp3, setToDoListTemp3] = React.useState('');
+    /**
+     * State to manage filtered todo list by search text
+     * @type {ToDo[]}
+     */
+    const [ToDoListFilteredBySearchValue, setToDoListFilteredBySearchValue] = React.useState('');
 
-    const [filterOption, setFilterOption] = React.useState(0);
+    /**
+     * State to manage the filter option (0: All, 1: Completed, 2: Incompleted)
+     * @type {number}
+     */
+    const [filterStateOption, setFilterStateOption] = React.useState(0);
 
+    /**
+     * State to manage the priority level (0: All, 1: Low, 2: Medium, 3: High)
+     * @type {number}
+     */
     const [priority, setPriority] = React.useState(0);
 
+    
     let List = '';
 
+    /**
+     * Retrieves all todos and resets filters
+     * @function
+     * @returns {void}
+     * @param {void}
+     * @description Resets the todo list to show all todos and clears filters
+     * // Usage: Call this function to reset the todo list to show all todos
+     * // and clear any applied filters.
+     */
     const getAllToDos = () => {
-        setToDoListTemp(ToDoList);
-        setFilterOption(0);
-        setPriority(0);
-        setSearchValue('');
-        document.getElementById('prioritySelect').selectedIndex = 0;
-    };
+        setValuesAfterFilterByState(ToDoList, 0);
+    };   
+    
 
-    const getCompleteToDos = () => {
-        List = completedToDos();
-        setToDoListTemp(List);
-        setFilterOption(1);
-        setPriority(0);
-        setSearchValue('');
-        document.getElementById('prioritySelect').selectedIndex = 0;
+    const filterByState = (state) => {
+        List = filterByStateOption(state);
+        setValuesAfterFilterByState(List, state === true ? 1 : 2);
+    } 
 
-    };
-
-    const completedToDos = () => {
-        const CompletedToDos = ToDoList.filter(
+    const filterByStateOption = (state) => {
+        const filteredToDoList = ToDoList.filter(
             (todo) => {
-                return todo.completed === true;
+                return todo.completed === state;
             }
         );
-        return CompletedToDos;
-    }
+        return filteredToDoList;
+    } 
 
-    const getIncompletedToDos = () => {
-        List = incompletedToDos();
-        setToDoListTemp(List);
-        setFilterOption(2);
+    const setValuesAfterFilterByState = (List, option) => {
+        setToDoListFilteredByState(List);
+        setFilterStateOption(option);
         setPriority(0);
         setSearchValue('');
         document.getElementById('prioritySelect').selectedIndex = 0;
     }
-
-    const incompletedToDos = () => {
-        const incompletedToDosList = ToDoList.filter(
-            (todo) => {
-                return todo.completed === false;
-            }
-        );
-        return incompletedToDosList;
-    }
+    
 
     /**
      * Filters todos by priority level
      * @param {number} priorityOption - Priority level (0: All, 1: Low, 2: Medium, 3: High)
      */
-    const filterByPriority = (priorityOption) => {
-
+    const filterByPriority = (priorityOption) => 
+    {
         switch (priorityOption) {
             case 0:
-                List = ToDoListTemp;
-                setPriority(0);
-                setSearchValue('');
+                filterByPriorityOption(priorityOption);
                 break;
             case 1:
-                filterByDownPriority();
+                filterByPriorityOption(priorityOption);
                 break;
             case 2:
-                filterByMediumPriority();
+                filterByPriorityOption(priorityOption);
                 break;
             case 3:
-                filterByHighPriority();
+                filterByPriorityOption(priorityOption);
                 break;
             default:
                 break;
         }
     }
 
-    const filterByDownPriority = () => {
-        const ListTemp = [...ToDoListTemp];
-        const listByPriority = ListTemp.filter(
-            (todo) => {
-                return todo.priority === 1;
-            }
-        );
-        setToDoListTemp2(listByPriority);
-        setPriority(1);
-        setSearchValue('');
+    /**
+     * Filters todos by a specific priority option  
+     * @param {number} priorityOption - Priority level (1: Low, 2: Medium, 3: High)
+     * @returns {void}
+     * and updates the state accordingly.
+     * // Usage: Call this function to filter the todo list by a specific
+     * // priority option (1, 2, or 3) and update the state with the filtered list. 
+     * */
+    const filterByPriorityOption = (priorityOption) => 
+    {
+        if(priorityOption !== 0)
+        {
+            const ListTemp = [...ToDoListFilteredByState];
+            const listByPriority = ListTemp.filter(
+                (todo) => {
+                    return todo.priority === priorityOption;
+                }
+            );
+            setToDoListByPriority(listByPriority);
+        }
 
-    }
-
-    const filterByMediumPriority = () => {
-
-        const ListTemp = [...ToDoListTemp];
-        const listByPriority = ListTemp.filter(
-            (todo) => {
-                return todo.priority === 2;
-            }
-        );
-        setToDoListTemp2(listByPriority);
-        setPriority(2);
-        setSearchValue('');
-    }
-
-    const filterByHighPriority = () => {
-        const ListTemp = [...ToDoListTemp];
-        const listByPriority = ListTemp.filter(
-            (todo) => {
-                return todo.priority === 3;
-            }
-        );
-        setToDoListTemp2(listByPriority);
-        setPriority(3);
+        setPriority(priorityOption);
         setSearchValue('');
     }
+    
+
 
     /**
      * Searches todos by text
@@ -171,9 +176,10 @@ function useToDos() {
                 return todoText.includes(searchText);
             }
         );
-        setToDoListTemp3(searchedToDos);
+        setToDoListFilteredBySearchValue(searchedToDos);
         setSearchValue(Text);
     }
+
 
     /**
      * Adds a new todo to the list
@@ -181,43 +187,63 @@ function useToDos() {
      */
     const addToDo = (ToDo) => {
 
+        //Se hace una copia de ToDoList y se guarda en la nueva constante newToDoList.
         const newToDoList = [...ToDoList];
+
+        //Se crea un nuevo objeto ToDoObj con los valores del ToDo recibido como parametro.
+        //Se genera un id aleatorio para el nuevo ToDo.
         let ToDoObj = {
             id: (Math.floor(Math.random() * 100) + Math.floor(Math.random() * 1000)),
             text: ToDo.text,
             priority: ToDo.priority,
             completed: false
         };
+
+        // Se agrega el nuevo ToDo a la lista newToDoList.
         newToDoList.push(ToDoObj);
+
+        // Se guarda el nuevo ToDo dentro de la lista newToDoList en el LocalStorage.
         saveToDos(newToDoList);
 
-        const newToDoListTemp = [...ToDoListTemp];
-        if (filterOption === 0 || filterOption === 2) {
+
+
+        
+        /***** Logica para actualizar el listado de ToDos en la vista. *****/
+
+        //Se hace una copia de ToDoListTemp y se guarda en la nueva constante newToDoListTemp.
+        const newToDoListTemp = [...ToDoListFilteredByState];
+        
+        // Se valida si el listado de ToDos esta en la opcion de filtrado de AllToDos o IncompletedToDos
+        // Si es AllToDos o IncompletedToDos se agrega el nuevo ToDo a la lista newToDoListTemp
+        if (filterStateOption === 0 || filterStateOption === 2) {
             newToDoListTemp.push(ToDoObj); 
-        }
-        setToDoListTemp(newToDoListTemp);
-       
-        if( (filterOption === 0 || filterOption === 2) && 
-            (priority === 0 || ToDo.priority === priority)
-        ){
-            let newToDoListTemp = [...ToDoListTemp2];
-            newToDoListTemp.push(ToDoObj); 
-            setToDoListTemp2(newToDoListTemp);
         }
 
-        if(  (ToDoListTemp3.length > 0) &&
-            (filterOption === 0 || filterOption === 2) && 
+        // Se actualiza toDoListTemp con la lista newToDoListTemp
+        setToDoListFilteredByState(newToDoListTemp);
+       
+        if( (filterStateOption === 0 || filterStateOption === 2) && 
+            (priority === 0 || ToDo.priority === priority)
+        ){
+            let newToDoListTemp = [...ToDoListByPriority];
+            newToDoListTemp.push(ToDoObj); 
+            setToDoListByPriority(newToDoListTemp);
+        }
+
+        if(  (ToDoListFilteredBySearchValue.length > 0) &&
+            (filterStateOption === 0 || filterStateOption === 2) && 
             (priority === 0 || ToDo.priority === priority)
         ){
             if(ToDo.text.includes(searchValue)){
-                let newToDoListTemp = [...ToDoListTemp3];
+                let newToDoListTemp = [...ToDoListFilteredBySearchValue];
                 newToDoListTemp.push(ToDoObj); 
-                setToDoListTemp3(newToDoListTemp);
+                setToDoListFilteredBySearchValue(newToDoListTemp);
             }
             
         }
 
     };
+
 
     /**
      * Toggles the completion status of a todo
@@ -226,59 +252,66 @@ function useToDos() {
     const completeToDo = (text) => {
 
         const newToDoList = [...ToDoList];
+                                           // Retornar el índice del primer elemento que coincida con el texto buscado
         const index = newToDoList.findIndex((todo) => todo.text === text);
         newToDoList[index].completed = newToDoList[index].completed !== true ? true : false;
         saveToDos(newToDoList);
 
-        if(filterOption === 1 || filterOption === 2){
-            const newToDoListTemp = [...ToDoListTemp];
-            const indexTemp = newToDoListTemp.findIndex((todo) => todo.text === text);
-            newToDoListTemp.splice(indexTemp, 1);
-            setToDoListTemp(newToDoListTemp);
-
-            const newToDoListTemp2 = [...ToDoListTemp2];
-            const indexTemp2 = newToDoListTemp2.findIndex((todo) => todo.text === text);
-            newToDoListTemp2.splice(indexTemp2, 1);
-            setToDoListTemp2(newToDoListTemp2);
-
-            const newToDoListTemp3 = [...ToDoListTemp3];
-            const indexTemp3 = newToDoListTemp3.findIndex((todo) => todo.text === text);
-            newToDoListTemp3.splice(indexTemp3, 1);
-            setToDoListTemp3(newToDoListTemp3);
+        if(filterStateOption === 1 || filterStateOption === 2)
+        {
+            updateLists([...ToDoListFilteredByState], text, 1);
+            updateLists([...ToDoListByPriority], text, 2);
+            updateLists([...ToDoListFilteredBySearchValue], text, 3);           
         }
     };
+
+    function updateLists(newToDoListTemp, text, listOption) 
+    {
+        const indexTemp = newToDoListTemp.findIndex((todo) => todo.text === text);
+        newToDoListTemp.splice(indexTemp, 1);
+
+        switch(listOption)
+        {
+            case 0:
+                saveToDos(newToDoListTemp);
+                break;
+            case 1:
+                setToDoListFilteredByState(newToDoListTemp);
+                break;
+            case 2:
+                setToDoListByPriority(newToDoListTemp);
+                break;
+            case 3:
+                setToDoListFilteredBySearchValue(newToDoListTemp);
+                break;
+            default:
+                break;
+        }
+    }
+
 
     /**
      * Removes a todo from all lists
      * @param {string} text - Text of the todo to delete
      */
     const deleteToDo = (text) => {
-        const newToDoList = [...ToDoList];
-        const index = newToDoList.findIndex((todo) => todo.text === text);
-        newToDoList.splice(index, 1);
-        saveToDos(newToDoList);
 
-        const newToDoListTemp = [...ToDoListTemp];
-        const indexTemp = newToDoListTemp.findIndex((todo) => todo.text === text);
-        newToDoListTemp.splice(indexTemp, 1);
-        setToDoListTemp(newToDoListTemp);
+        updateLists([...ToDoList], text, 0);
 
-        if(ToDoListTemp2.length > 0){
-            let newToDoListTemp = [...ToDoListTemp2];
-            const indexTemp = newToDoListTemp.findIndex((todo) => todo.text === text);
-            newToDoListTemp.splice(indexTemp, 1);
-            setToDoListTemp2(newToDoListTemp);
+        updateLists([...ToDoListFilteredByState], text, 1);
+
+        if(ToDoListByPriority.length > 0)
+        {
+            updateLists([...ToDoListByPriority], text, 2);
         }
 
-        if( ToDoListTemp3.length > 0 && 
-            (filterOption === 0 || filterOption === 2)
+        if( ToDoListFilteredBySearchValue.length > 0 && 
+            (filterStateOption === 0 || filterStateOption === 2)
         ){
-            let newToDoListTemp = [...ToDoListTemp3];
-            const indexTemp = newToDoListTemp.findIndex((todo) => todo.text === text);
-            newToDoListTemp.splice(indexTemp, 1);
-            setToDoListTemp3(newToDoListTemp);
+            updateLists([...ToDoListFilteredBySearchValue], text, 3);   
         }
     };
+
 
     /**
      * Checks if a string is empty or contains only whitespace
@@ -293,6 +326,7 @@ function useToDos() {
             return false;
     };
 
+
     /**
      * Determines which list to use based on current priority filter
      * @returns {ToDo[]} Filtered list of todos
@@ -301,10 +335,10 @@ function useToDos() {
         let Lista = '';
         switch (priority) {
             case 0:
-                Lista = ToDoListTemp;
+                Lista = ToDoListFilteredByState;
                 break;
             case 1: case 2: case 3:
-                Lista = ToDoListTemp2;
+                Lista = ToDoListByPriority;
                 break;
             default:
                 break;
@@ -329,26 +363,22 @@ function useToDos() {
     // console.log('searchValue: ' + searchValue.length + " " + searchValue);
     // console.log('==== End Before validate ====');
 
-    if (ToDoListTemp.length > 0) 
+    if (ToDoListFilteredByState.length > 0) 
     {
-        if (filterOption === 0 ||
-            filterOption === 1) 
+        if (filterStateOption === 0 ||
+            filterStateOption === 1 ||
+            filterStateOption === 2) 
         {
             if (searchValue.length > 0) {
-                List = ToDoListTemp3;
+                List = ToDoListFilteredBySearchValue;
             }else{
                 List = determinateListByPrioririty();
             }     
-        } else if (filterOption === 2) 
-        {
-            if (searchValue.length > 0) {
-                List = ToDoListTemp3;
-            }else{
-                List = determinateListByPrioririty();
-            }         
-        }
-    } else {
-        if (filterOption === 0) {
+        } 
+    } 
+    else 
+    {
+        if (filterStateOption === 0) {
             List = ToDoList;
         }
 
@@ -358,7 +388,7 @@ function useToDos() {
     }   
 
     const totalToDos = ToDoList.length;
-    const totalCompletedToDos = completedToDos().length;
+    const totalCompletedToDos = filterByStateOption(true).length;
 
     // console.log('List: ' + List.length);
     // if(List.length > 0){ let r=''; List.forEach(function(jsonObj) { r +=jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority+' | '; }); console.log(r) }
@@ -370,9 +400,8 @@ function useToDos() {
          */
         List,
         getAllToDos,
-        getCompleteToDos,
-        getIncompletedToDos,
-        filterOption,
+        filterByState,
+        filterStateOption,
         findToDoByText,
         searchValue,
         setSearchValue,
