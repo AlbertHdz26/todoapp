@@ -17,7 +17,9 @@ import { ToDoCounter } from "../ToDoCounter";
 import { FilterOptions } from "../FilterOptions";
 import { ToDoHeader } from "../ToDoHeader";
 import { ToDoSection } from "../ToDoSection";
+import { LocalStorageChangeAlert } from "../LocalStorageChangeAlert";
 import PropTypes from 'prop-types';
+
 
 /**
  * Main application component that provides todo management functionality
@@ -52,7 +54,8 @@ function App() {
         addToDo,               // Add new todo function
         openModal: show,        // Modal visibility state
         setOpenModal: setShow,  // Modal visibility setter
-        isEmpty                 // Text validation function
+        isEmpty,                 // Text validation function
+        sincronizeToDos     // Synchronize todos with localStorage
     } = useToDos();
 
 
@@ -106,6 +109,10 @@ function App() {
                         loading={loading}
                     />
 
+                    <LocalStorageChangeAlert 
+                        sincronizeToDos={sincronizeToDos}
+                    />
+
                     <ToDoList
                         loading={loading}
                         totalToDos={totalToDos}
@@ -151,6 +158,7 @@ function App() {
                         setShow={setShow}
                         isEmpty={isEmpty}
                     />
+
                 </Row>
             </ToDoSection>
         </Container>
@@ -189,7 +197,7 @@ ToDoList.propTypes = {
     error: PropTypes.bool.isRequired,
     list: PropTypes.array.isRequired,
     searchValue: PropTypes.string.isRequired,
-    children: PropTypes.func.isRequired
+    todo: PropTypes.func.isRequired
 };
 
 export default App;

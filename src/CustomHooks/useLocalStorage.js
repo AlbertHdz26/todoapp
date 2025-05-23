@@ -45,6 +45,12 @@ function useLocalStorage(itemName, initialValue) {
 	const [error, setError] = React.useState(false);
 
 	/**
+   * State to manage synchronization state	
+   * @type {boolean}
+   */
+	const [sincronizedItem, setSincronizedItem] = React.useState(true);
+
+	/**
    * Effect to load item from localStorage on component mount
    * Sets loading state to false after 3 seconds
    */
@@ -74,13 +80,14 @@ function useLocalStorage(itemName, initialValue) {
 					setItemFiltered(parsedItem);
 				}
 				setLoading(false);
+				setSincronizedItem(true);
 				
 			} catch (error) {
 				setLoading(false);
 				setError(true);
 			}
 		}, 3000);
-	}, []);
+	}, [sincronizedItem]);
 
 	/**
 	 * Persists new value to localStorage and updates state
@@ -91,13 +98,22 @@ function useLocalStorage(itemName, initialValue) {
 		setItem(newItem);
 	};
 
+	const sincronizeItem = () => {
+		//se cambia el estado loading a true para mostrar el loading
+		setLoading(true);
+
+		//se cambia el estado de sincronización para que se vuelva a ejecutar el useEffect y sincronizar el localStorage
+		setSincronizedItem(false);
+	}	
+
 	return {
 		item,
 		saveItem,
 		itemFiltered,
 		setItemFiltered,
 		loading,
-		error
+		error,
+		sincronizeItem
 	};
 }
 

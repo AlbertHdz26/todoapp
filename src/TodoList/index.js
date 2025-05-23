@@ -28,7 +28,8 @@ function ToDoList(props){
             {/* {console.log('List: '+List.length)} */}
             {/* {List.forEach(function(jsonObj) { console.log(jsonObj.text+', '+jsonObj.completed+', '+jsonObj.priority) } ) }  */}
 
-            {props.list.map(render)}
+            {/* si loading es false y error es falso, entonces recorremos la lista de ToDos */}
+            {(!props.loading && !props.error) && props.list.map(render)}
 
             {/* Para pasar propiedas a componentes hijos */}
             {props.children}

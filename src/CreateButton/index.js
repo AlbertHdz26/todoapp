@@ -3,7 +3,6 @@ import Button from 'react-bootstrap/Button';
 import './CreateButton.css'
 
 function CreateButton({setOpenModal, loading}) {
-    console.log("log1 - setOpenModal: "+setOpenModal);
     return (
         <>
             <Button

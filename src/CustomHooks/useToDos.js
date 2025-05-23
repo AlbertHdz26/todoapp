@@ -28,7 +28,8 @@ function useToDos() {
         itemFiltered: ToDoListFilteredByState, //State to manage To Dos filtered by state: all todos, completed and incompleted
         setItemFiltered: setToDoListFilteredByState,
         loading,
-        error
+        error,
+        sincronizeItem: sincronizeToDos
     } = useLocalStorage('TODOS_V1', []);
 
     /**
@@ -415,7 +416,8 @@ function useToDos() {
         totalToDos,
         totalCompletedToDos,
         loading,
-        error
+        error,
+        sincronizeToDos
     };
 }
 
