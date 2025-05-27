@@ -2,12 +2,12 @@ import React from "react";
 import Button from 'react-bootstrap/Button';
 import './CreateButton.css'
 
-function CreateButton({setOpenModal}) {
-    console.log("log1 - setOpenModal: "+setOpenModal);
+function CreateButton({setOpenModal, loading}) {
     return (
         <>
             <Button
                 className="CreateButton"
+                disabled={loading}
                 onClick={() => {setOpenModal(state => !state); }}
             > + </Button>{' '}
         </>

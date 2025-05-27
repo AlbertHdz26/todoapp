@@ -1,13 +1,16 @@
 .FilterOptions{
     margin-bottom: 10px;
+    display: flex;
 }
 
 .FilterButtons{
-    margin-bottom: 15px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
 }
 
 .FilterButton{
-    margin-right: 3px;
+    margin-right: 6px;
 }
 
 .All:hover{
@@ -34,15 +37,21 @@
     border-color: #a7a7a7;
 }
 
-.PriorityFilterSelect{
-    display:inline-block;
-    width: auto;
-    vertical-align: middle;
+.priority-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 15px;
 }
 
-.PriorityFilterText{
-    font-size: 13px;
-    font-weight: bold;
+.priority-selector label {
+    margin: 0;
+    white-space: nowrap;
+}
+
+.priority-selector select {
+    width: auto;
+    min-width: 150px;
 }
 
 .ToDoFilterOption{
@@ -60,5 +69,22 @@
 
 .ToDoFilterOption-2{
     color: #8d8c8c;
+}
+
+.active-filters {
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+}
+
+.filter-labels {
+    gap: 20px;
+    align-items: center;
+}
+
+.filter-type, .filter-priority {
+    align-items: center;
+    color: #666;
+    font-size: 0.9em;
 }
 
