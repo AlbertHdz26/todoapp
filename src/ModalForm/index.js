@@ -111,7 +111,7 @@ function ModalForm({addToDo,
                         <div className="form-check">
                             <input className="form-check-input radio" type="radio" name="prioridad" id="radio1" value="1" defaultChecked/>
                                 <label className="form-check-label" htmlFor="radio1">
-                                    Low <i className="bi bi-flag-fill flag-1"></i>
+                                    High <i className="bi bi-flag-fill flag-1"></i>
                                 </label>
                         </div>
                         <div className="form-check">
@@ -123,7 +123,7 @@ function ModalForm({addToDo,
                         <div className="form-check">
                             <input className="form-check-input radio" type="radio" name="prioridad" id="radio3" value="3"/>
                                 <label className="form-check-label" htmlFor="radio3">
-                                    High <i className="bi bi-flag-fill flag-3"></i>
+                                    Low <i className="bi bi-flag-fill flag-3"></i>
                                 </label>
                         </div>
                     </Form>

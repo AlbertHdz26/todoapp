@@ -48,13 +48,19 @@ function useToDos() {
     * State to manage filtered todo list by priority      
     * @type {ToDo[]}
     */
-    const [ToDoListByPriority, setToDoListByPriority] = React.useState('');
+    const [ToDoListByPriority, setToDoListByPriority] = React.useState([]);
 
+    /**
+     * State to manage ordered todo list (ascending or descending)
+     * @type {ToDo[]}
+     */
+    const [ToDoListOrderedAscDesc, setToDoListOrderedAscDesc] = React.useState([]);
+    
     /**
      * State to manage filtered todo list by search text
      * @type {ToDo[]}
      */
-    const [ToDoListFilteredBySearchValue, setToDoListFilteredBySearchValue] = React.useState('');
+    const [ToDoListFilteredBySearchValue, setToDoListFilteredBySearchValue] = React.useState([]);
 
     /**
      * State to manage the filter option (0: All, 1: Completed, 2: Incompleted)
@@ -68,9 +74,14 @@ function useToDos() {
      */
     const [priority, setPriority] = React.useState(0);
 
-    
-    let List = '';
+    /**
+     * State to manage the disabled state of the order ascending/descending buttons
+     * @type {boolean}
+     */
+    const [disabledOrderAscDesc, setDisabledOrderAscDesc] = React.useState(false);
 
+    let List = [];
+    
     /**
      * Retrieves all todos and resets filters
      * @function
@@ -103,69 +114,101 @@ function useToDos() {
         setToDoListFilteredByState(List);
         setFilterStateOption(option);
         setPriority(0);
+        setToDoListByPriority([]);
+        setToDoListOrderedAscDesc([]);
+        setDisabledOrderAscDesc(false);
         setSearchValue('');
         document.getElementById('prioritySelect').selectedIndex = 0;
     }
     
 
     /**
-     * Filters todos by priority level
-     * @param {number} priorityOption - Priority level (0: All, 1: Low, 2: Medium, 3: High)
+     * Filters and Order todos by priority level
+     * @param {number} priorityOption - Priority level (0: All, 1: Filter Low, 2: Filter Medium, 3: Filter High, 4: Order High to Low, 5: Order Low to High)
      */
     const filterByPriority = (priorityOption) => 
     {
+        const ListTemp = [...ToDoListFilteredByState];
+        let listByPriority = [];
+
         switch (priorityOption) {
             case 0:
-                filterByPriorityOption(priorityOption);
+                // Si se selecciona la opción de todos los ToDos, se deshabilita el botón de ordenación ascendente/descendente
+                setDisabledOrderAscDesc(false);
                 break;
-            case 1:
-                filterByPriorityOption(priorityOption);
+            case 1: case 2: case 3:
+                listByPriority = ListTemp.filter(
+                    (todo) => {
+                        return todo.priority === priorityOption;
+                    }
+                );
+                // Si se selecciona una opción de filtrado por prioridad, se habilita el botón de ordenación ascendente/descendente
+                setDisabledOrderAscDesc(false);
                 break;
-            case 2:
-                filterByPriorityOption(priorityOption);
+            case 4:
+                // Ordena de High a Low
+                listByPriority = ListTemp.sort((a, b) => a.priority - b.priority);
+                // Si se selecciona la opción de ordenar High a Low, se deshabilita el botón de ordenación ascendente/descendente
+                setDisabledOrderAscDesc(true);
                 break;
-            case 3:
-                filterByPriorityOption(priorityOption);
+            case 5:
+                // Ordena de Low a High
+                listByPriority = ListTemp.sort((a, b) => b.priority - a.priority);
+                // Si se selecciona la opción de ordenar Low a High, se deshabilita el botón de ordenación ascendente/descendente
+                setDisabledOrderAscDesc(true);
                 break;
             default:
                 break;
         }
-    }
-
-    /**
-     * Filters todos by a specific priority option  
-     * @param {number} priorityOption - Priority level (1: Low, 2: Medium, 3: High)
-     * @returns {void}
-     * and updates the state accordingly.
-     * // Usage: Call this function to filter the todo list by a specific
-     * // priority option (1, 2, or 3) and update the state with the filtered list. 
-     * */
-    const filterByPriorityOption = (priorityOption) => 
-    {
-        if(priorityOption !== 0)
-        {
-            const ListTemp = [...ToDoListFilteredByState];
-            const listByPriority = ListTemp.filter(
-                (todo) => {
-                    return todo.priority === priorityOption;
-                }
-            );
-            setToDoListByPriority(listByPriority);
-        }
-
+        setToDoListByPriority(listByPriority);
         setPriority(priorityOption);
+        setToDoListOrderedAscDesc([]);
         setSearchValue('');
     }
-    
+
+    const orderAscDesc = (orderOption) => {debugger;
+        let ListTemp = [];
+        
+        // Determina la lista a ordenar según el estado de los filtros
+        if(ToDoListFilteredBySearchValue.length > 0){debugger;  
+            ListTemp = [...ToDoListFilteredBySearchValue];
+        }
+        else if(ToDoListByPriority.length > 0){debugger;
+            ListTemp = [...ToDoListByPriority];
+        }
+        else if(ToDoListFilteredByState.length > 0){debugger;
+            ListTemp = [...ToDoListFilteredByState];
+        }
+        debugger;
+        switch (orderOption) {
+            case 1:
+                // Ordena de A a Z
+                ListTemp.sort((a, b) => a.text.toLowerCase().localeCompare(b.text.toLowerCase()));
+                break;
+            case 2:
+                // Ordena de Z a A
+                ListTemp.sort((a, b) => b.text.toLowerCase().localeCompare(a.text.toLowerCase()));
+                break;
+            default:
+                // No se realiza ninguna ordenación
+                break;
+        }
+        // Actualiza el estado de la lista ordenada ascendente o descendente
+        // dependiendo de la opción seleccionada
+        setToDoListOrderedAscDesc(ListTemp);
+
+        // Actualiza el estado de lista filtrada por búsqueda en base a la lista ordenada
+        setToDoListFilteredBySearchValue(ListTemp);
+    }
 
 
     /**
      * Searches todos by text
      * @param {string} Text - Search text to filter todos
      */
-    const findToDoByText = (Text) => {
+    const findToDoByText = (Text) => {debugger;
         
-        let ListToSearch = '';
+        let ListToSearch = [];
         let searchedToDos = '';
 
         ListToSearch = determinateListByPrioririty();
@@ -177,7 +220,13 @@ function useToDos() {
                 return todoText.includes(searchText);
             }
         );
+        // se actualiza el estado de lista filtrada por búsqueda con los resultados de la búsqueda
         setToDoListFilteredBySearchValue(searchedToDos);
+
+        //Se actualiza el estado de lista ordenada ascendente o descendente en base a la lista filtrada por búsqueda
+        setToDoListOrderedAscDesc(searchedToDos);
+
+        //se actualiza el estado de la búsqueda con el texto ingresado
         setSearchValue(Text);
     }
 
@@ -333,12 +382,12 @@ function useToDos() {
      * @returns {ToDo[]} Filtered list of todos
      */
     const determinateListByPrioririty = () => {
-        let Lista = '';
+        let Lista = [];
         switch (priority) {
             case 0:
                 Lista = ToDoListFilteredByState;
                 break;
-            case 1: case 2: case 3:
+            case 1: case 2: case 3: case 4: case 5:
                 Lista = ToDoListByPriority;
                 break;
             default:
@@ -365,14 +414,20 @@ function useToDos() {
     // console.log('==== End Before validate ====');
 
     if (ToDoListFilteredByState.length > 0) 
-    {
+    {debugger;
         if (filterStateOption === 0 ||
             filterStateOption === 1 ||
             filterStateOption === 2) 
         {
-            if (searchValue.length > 0) {
-                List = ToDoListFilteredBySearchValue;
-            }else{
+            if (searchValue.length > 0) 
+            {
+                List = ToDoListFilteredBySearchValue; 
+            }
+            else if(ToDoListOrderedAscDesc.length > 0) 
+            {
+                List = ToDoListOrderedAscDesc;
+            }
+            else{
                 List = determinateListByPrioririty();
             }     
         } 
@@ -417,7 +472,9 @@ function useToDos() {
         totalCompletedToDos,
         loading,
         error,
-        sincronizeToDos
+        sincronizeToDos,
+        orderAscDesc,
+        disabledOrderAscDesc
     };
 }
 
