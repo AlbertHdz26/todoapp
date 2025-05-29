@@ -11,7 +11,9 @@ function FilterOptions({getAllToDos,
                         filterByState,
                         filterStateOption,
                         filterByPriority,
-                        loading
+                        loading,
+                        orderAscDesc,
+                        disabledOrderAscDesc
                     }) {
 
     const [selectedPriority, setSelectedPriority] = React.useState('');
@@ -34,7 +36,7 @@ function FilterOptions({getAllToDos,
         <>
             <Form className="mt-2">
                 <Row className="FilterOptions">
-                    <Col sm={12} md={5} className="FilterButtons">
+                    <Col sm={12} md="auto" className="FilterButtons">
                         
                         <Button size="sm" variant="primary" className="FilterButton All" 
                             disabled={loading}
@@ -65,7 +67,7 @@ function FilterOptions({getAllToDos,
                             Incompleted ToDos
                         </Button>
                     </Col>
-                    <Col sm={12} md={7} className="priority-selector">
+                    <Col sm={12} md="auto" className="priority-selector">
                         <label><b>Priority:</b></label>
                         <select 
                             name="prioritySelect"
@@ -79,14 +81,16 @@ function FilterOptions({getAllToDos,
                             }}
                         >
                             <option value="0" defaultValue>- Select priority -</option>
-                            <option value="1">Low</option>
+                            <option value="1">High</option>
                             <option value="2">Medium</option>
-                            <option value="3">High</option>
+                            <option value="3">Low</option>
+                            <option value="4">High to Low</option>
+                            <option value="5">Low to High</option>
                         </select>                       
                     </Col>
                 </Row>
                 <Row>
-                    <Col md={12} className="active-filters">
+                    <Col md={10} className="active-filters">
                         <div className="filter-labels">
                             <span className="filter-type">
                                 <i className="bi bi-funnel-fill me-2"></i>
@@ -101,6 +105,14 @@ function FilterOptions({getAllToDos,
                                 </span>
                             </span>
                         </div>
+                    </Col>
+                    <Col md={2} className={`orderBy ${!disabledOrderAscDesc && !loading ? '' : 'orderBy-disabled'}`}>
+                        <i className="bi bi-caret-down-square-fill orderByAsc"
+                            onClick={!disabledOrderAscDesc && !loading ? () => orderAscDesc(1) : undefined}
+                        ></i>
+                        <i className="bi bi-caret-up-square-fill orderByDesc"
+                            onClick={!disabledOrderAscDesc && !loading ? () => orderAscDesc(2) : undefined}
+                        ></i>
                     </Col>
                 </Row>
             </Form >

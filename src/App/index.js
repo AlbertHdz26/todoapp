@@ -55,7 +55,9 @@ function App() {
         openModal: show,        // Modal visibility state
         setOpenModal: setShow,  // Modal visibility setter
         isEmpty,                 // Text validation function
-        sincronizeToDos     // Synchronize todos with localStorage
+        sincronizeToDos,     // Synchronize todos with localStorage
+        orderAscDesc,         // Order todos ascending/descending by Name
+        disabledOrderAscDesc  // Disable order asc/desc buttons based on order high to low or low to high
     } = useToDos();
 
 
@@ -107,6 +109,8 @@ function App() {
                         filterStateOption={filterStateOption}
                         filterByPriority={filterByPriority}
                         loading={loading}
+                        orderAscDesc={orderAscDesc}
+                        disabledOrderAscDesc={disabledOrderAscDesc}
                     />
 
                     <LocalStorageChangeAlert 

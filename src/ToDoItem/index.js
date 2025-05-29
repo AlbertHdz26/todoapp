@@ -15,9 +15,9 @@ function ToDoItem(props) {
                 onClick={ () => props.deleteToDo(props.text) }
             ></i>
             <p className="priority"><b>Priority: </b>  
-                {props.priority === 1 && "Low "} 
+                {props.priority === 1 && "High "} 
                 {props.priority === 2 && "Medium "} 
-                {props.priority === 3 && "High "} 
+                {props.priority === 3 && "Low "} 
                 <i className={`bi bi-flag-fill flag-${props.priority}`}></i>
             </p>
         </div>
