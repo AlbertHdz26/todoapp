@@ -118,7 +118,13 @@
     color: #a5a5a5;
 }
 
+.priority-selector .form-select option {
+    padding-right: 20px;
+}
 
+.flag-1 { color: #ff0000; }
+.flag-2 { color: #ffae00; }
+.flag-3 { color: #0dcaf0; }
 
 
 
