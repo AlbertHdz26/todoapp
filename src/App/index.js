@@ -46,18 +46,23 @@ function App() {
         searchValue,            // Current search term
         findToDoByText,         // Search function
         getAllToDos,            // Get all todos function
-        filterByState,         // Filter todos by state (completed/incompleted)
-        filterStateOption,           // Current filter priority option
+        filterByState,          // Filter todos by state (completed/incompleted)
+        filterStateOption,      // Current filter priority option
         filterByPriority,       // Priority filter function
         completeToDo,           // Toggle todo completion
         deleteToDo,             // Delete todo function
-        addToDo,               // Add new todo function
+        toDo,                   // Current todo being edited
+        setToDo,                // Setter for current todo
+        createOrEdit,           // Flag to determine if creating or editing a todo
+        setCreateOrEdit,        // Setter for createOrEdit flag
+        addToDo,                // Add new todo function
+        updateToDo,             // Update existing todo function
         openModal: show,        // Modal visibility state
         setOpenModal: setShow,  // Modal visibility setter
         isEmpty,                 // Text validation function
-        sincronizeToDos,     // Synchronize todos with localStorage
-        orderAscDesc,         // Order todos ascending/descending by Name
-        disabledOrderAscDesc  // Disable order asc/desc buttons based on order high to low or low to high
+        sincronizeToDos,        // Synchronize todos with localStorage
+        orderAscDesc,           // Order todos ascending/descending by Name
+        disabledOrderAscDesc    // Disable order asc/desc buttons based on order high to low or low to high
     } = useToDos();
 
 
@@ -96,6 +101,7 @@ function App() {
                         <CreateButton
                             loading={loading}
                             setOpenModal={setShow}
+                            setCreateOrEdit={setCreateOrEdit}
                         />
                     </Col>
                 </Row>
@@ -133,10 +139,13 @@ function App() {
                             <ToDoItem
                                 completeToDo={completeToDo}
                                 deleteToDo={deleteToDo}
-                                key={todo.id}
+                                id={todo.id}
                                 text={todo.text}
                                 priority={todo.priority}
                                 completed={todo.completed}
+                                setOpenModal={setShow}
+                                setToDo={setToDo}
+                                setCreateOrEdit={setCreateOrEdit}
                             />
                         )}
                     >
@@ -146,7 +155,7 @@ function App() {
                                 <ToDoItem
                                     completeToDo={completeToDo}
                                     deleteToDo={deleteToDo}
-                                    key={todo.id}
+                                    id={todo.id}
                                     text={todo.text}
                                     priority={todo.priority}
                                     completed={todo.completed}
@@ -155,12 +164,15 @@ function App() {
                             */}
                     </ToDoList>
 
-
                     <ModalForm
+                        toDo={toDo}
+                        setToDo={setToDo}
                         addToDo={addToDo}
+                        updateToDo={updateToDo}
                         show={show}
                         setShow={setShow}
                         isEmpty={isEmpty}
+                        createOrEdit={createOrEdit}
                     />
 
                 </Row>

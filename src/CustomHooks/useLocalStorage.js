@@ -87,6 +87,9 @@ function useLocalStorage(itemName, initialValue) {
 				setError(true);
 			}
 		}, 3000);
+		
+		// se pasa como argumento sincronizedItem para que se ejecute el useEffect cuando este estado cambie
+		// si se coloca vacio [] solo se ejecuta una vez al montar el componente
 	}, [sincronizedItem]);
 
 	/**

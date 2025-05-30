@@ -28,6 +28,16 @@
     transform: scale(5) !important;
 }
 
+.IconItemEdit{
+    font-size: 35px;   
+    color: #449bff;
+    float: right;
+}
+
+.IconItemEdit:hover{
+    color: #0062d1;
+}
+
 .IconItemDelete{
     font-size: 35px;   
     color: #ff0000;
@@ -64,6 +74,6 @@
 }
 
 .flag-3{
-    color: #a500a5;
+    color: #0dcaf0;
 }
 

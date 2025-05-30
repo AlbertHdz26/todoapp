@@ -10,7 +10,7 @@ import { useLocalStorage } from "./useLocalStorage";
 /**
  * @typedef {Object} ToDo
  * @property {number} id - Unique identifier for the todo
- * @property {string} text - The todo text content
+ * @property {string} id - The todo text content
  * @property {number} priority - Priority level (1: Low, 2: Medium, 3: High)
  * @property {boolean} completed - Completion status
  */
@@ -80,6 +80,24 @@ function useToDos() {
      */
     const [disabledOrderAscDesc, setDisabledOrderAscDesc] = React.useState(false);
 
+    /**
+     * State to manage the todo being edited in the modal
+     * @type {ToDo}
+     */
+    const [toDo, setToDo] = React.useState({
+        id: 0,
+        text: '',
+        priority: 0, 
+        completed: false
+    });
+
+    /**
+     * State to manage the create or edit mode of the todo  
+     * @type {boolean}
+     */
+    const [createOrEdit, setCreateOrEdit] = React.useState(true); // true for create, false for edit
+
+    /** Lista de todos a mostrar en vista */
     let List = [];
     
     /**
@@ -88,19 +106,26 @@ function useToDos() {
      * @returns {void}
      * @param {void}
      * @description Resets the todo list to show all todos and clears filters
-     * // Usage: Call this function to reset the todo list to show all todos
-     * // and clear any applied filters.
      */
     const getAllToDos = () => {
         setValuesAfterFilterByState(ToDoList, 0);
     };   
     
-
+    /**
+     * Filters todos by their completion state
+     * @param {boolean} state - True for completed todos, false for incompleted todos
+     * @returns {void}
+     */
     const filterByState = (state) => {
         List = filterByStateOption(state);
         setValuesAfterFilterByState(List, state === true ? 1 : 2);
     } 
 
+    /**
+     * Filters todos by their completion state
+     * @param {boolean} state - True for completed todos, false for incompleted todos
+     * @returns {ToDo[]} Filtered todo list
+     */
     const filterByStateOption = (state) => {
         const filteredToDoList = ToDoList.filter(
             (todo) => {
@@ -110,6 +135,12 @@ function useToDos() {
         return filteredToDoList;
     } 
 
+    /**
+     * Sets the filtered todo list and resets other filters
+     * @param {ToDo[]} List - The todo list to set
+     * @param {number} option - The filter option (0: All, 1: Completed, 2: Incompleted)
+     * @returns {void}
+     */
     const setValuesAfterFilterByState = (List, option) => {
         setToDoListFilteredByState(List);
         setFilterStateOption(option);
@@ -166,20 +197,24 @@ function useToDos() {
         setSearchValue('');
     }
 
-    const orderAscDesc = (orderOption) => {debugger;
+    /**
+     * Orders the todo list by text in ascending or descending order
+     * @param {number} orderOption - Order option (1: Ascending, 2: Descending)
+     */
+    const orderAscDesc = (orderOption) => {
         let ListTemp = [];
         
         // Determina la lista a ordenar según el estado de los filtros
-        if(ToDoListFilteredBySearchValue.length > 0){debugger;  
+        if(ToDoListFilteredBySearchValue.length > 0){  
             ListTemp = [...ToDoListFilteredBySearchValue];
         }
-        else if(ToDoListByPriority.length > 0){debugger;
+        else if(ToDoListByPriority.length > 0){
             ListTemp = [...ToDoListByPriority];
         }
-        else if(ToDoListFilteredByState.length > 0){debugger;
+        else if(ToDoListFilteredByState.length > 0){
             ListTemp = [...ToDoListFilteredByState];
         }
-        debugger;
+        
         switch (orderOption) {
             case 1:
                 // Ordena de A a Z
@@ -198,7 +233,9 @@ function useToDos() {
         setToDoListOrderedAscDesc(ListTemp);
 
         // Actualiza el estado de lista filtrada por búsqueda en base a la lista ordenada
-        setToDoListFilteredBySearchValue(ListTemp);
+        if(searchValue.length > 0){
+            setToDoListFilteredBySearchValue(ListTemp);
+        }
     }
 
 
@@ -206,7 +243,7 @@ function useToDos() {
      * Searches todos by text
      * @param {string} Text - Search text to filter todos
      */
-    const findToDoByText = (Text) => {debugger;
+    const findToDoByText = (Text) => {
         
         let ListToSearch = [];
         let searchedToDos = '';
@@ -243,7 +280,7 @@ function useToDos() {
         //Se crea un nuevo objeto ToDoObj con los valores del ToDo recibido como parametro.
         //Se genera un id aleatorio para el nuevo ToDo.
         let ToDoObj = {
-            id: (Math.floor(Math.random() * 100) + Math.floor(Math.random() * 1000)),
+            id: (Math.floor(Math.random() * 1000) + Math.floor(Math.random() * 10000)),
             text: ToDo.text,
             priority: ToDo.priority,
             completed: false
@@ -269,7 +306,7 @@ function useToDos() {
             newToDoListTemp.push(ToDoObj); 
         }
 
-        // Se actualiza toDoListTemp con la lista newToDoListTemp
+        // Se actualiza ToDoListFilteredByState con la lista newToDoListTemp
         setToDoListFilteredByState(newToDoListTemp);
        
         if( (filterStateOption === 0 || filterStateOption === 2) && 
@@ -284,7 +321,7 @@ function useToDos() {
             (filterStateOption === 0 || filterStateOption === 2) && 
             (priority === 0 || ToDo.priority === priority)
         ){
-            if(ToDo.text.includes(searchValue)){
+            if(ToDo.id.includes(searchValue)){
                 let newToDoListTemp = [...ToDoListFilteredBySearchValue];
                 newToDoListTemp.push(ToDoObj); 
                 setToDoListFilteredBySearchValue(newToDoListTemp);
@@ -294,30 +331,81 @@ function useToDos() {
 
     };
 
-
     /**
-     * Toggles the completion status of a todo
-     * @param {string} text - Text of the todo to complete
+     * Updates an existing todo in the list
+     * @param {ToDo} ToDo - The todo object to update
      */
-    const completeToDo = (text) => {
+    const updateToDo = (ToDo) => {
 
         const newToDoList = [...ToDoList];
-                                           // Retornar el índice del primer elemento que coincida con el texto buscado
-        const index = newToDoList.findIndex((todo) => todo.text === text);
+                                           // Retornar el índice del primer elemento que coincida con el id buscado
+        const index = newToDoList.findIndex((todo) => todo.id === ToDo.id);
+        newToDoList[index].text = ToDo.text;
+        newToDoList[index].priority = ToDo.priority;
+        saveToDos(newToDoList);
+
+        if(filterStateOption === 1 || filterStateOption === 2)
+        {
+            updateLists([...ToDoListFilteredByState], ToDo.id, 1);
+            updateLists([...ToDoListByPriority], ToDo.id, 2);
+            updateLists([...ToDoListFilteredBySearchValue], ToDo.id, 3);           
+        }
+    };
+
+    /**
+     * Completes a todo by toggling its completed status
+     * @param {ToDo} ToDo - The todo object to complete
+     */
+    const completeToDo = (ToDo) => {
+
+        const newToDoList = [...ToDoList];
+                                           // Retornar el índice del primer elemento que coincida con el id buscado
+        const index = newToDoList.findIndex((todo) => todo.id === ToDo.id);
         newToDoList[index].completed = newToDoList[index].completed !== true ? true : false;
         saveToDos(newToDoList);
 
         if(filterStateOption === 1 || filterStateOption === 2)
         {
-            updateLists([...ToDoListFilteredByState], text, 1);
-            updateLists([...ToDoListByPriority], text, 2);
-            updateLists([...ToDoListFilteredBySearchValue], text, 3);           
+            updateLists([...ToDoListFilteredByState], ToDo.id, 1);
+            updateLists([...ToDoListByPriority], ToDo.id, 2);
+            updateLists([...ToDoListFilteredBySearchValue], ToDo.id, 3);           
         }
     };
 
-    function updateLists(newToDoListTemp, text, listOption) 
+    /**
+     * Deletes a todo from the list
+     * @param {ToDo} ToDo - The todo object to delete
+     */
+    const deleteToDo = (ToDo) => {
+
+        updateLists([...ToDoList], ToDo.id, 0);
+        updateLists([...ToDoListFilteredByState], ToDo.id, 1);
+
+        if(ToDoListByPriority.length > 0)
+        {
+            updateLists([...ToDoListByPriority], ToDo.id, 2);
+        }
+
+        if( ToDoListFilteredBySearchValue.length > 0 && 
+            (filterStateOption === 0 || filterStateOption === 2) )
+        {
+            updateLists([...ToDoListFilteredBySearchValue], ToDo.id, 3);   
+        }
+    };
+
+
+    /**
+    * Updates the lists after updating, completing or deleting a todo
+    * @param {ToDo[]} newToDoListTemp - Temporary list of todos
+    * @param {number} id - id of the todo 
+    * @param {number} listOption - Option to determine which list to update
+    */
+    function updateLists(newToDoListTemp, id, listOption) 
     {
-        const indexTemp = newToDoListTemp.findIndex((todo) => todo.text === text);
+        // Find the index of the todo to delete in the temporary list
+        const indexTemp = newToDoListTemp.findIndex((todo) => todo.id === id);
+
+        // splice removes the todo from the temporary list
         newToDoListTemp.splice(indexTemp, 1);
 
         switch(listOption)
@@ -338,30 +426,6 @@ function useToDos() {
                 break;
         }
     }
-
-
-    /**
-     * Removes a todo from all lists
-     * @param {string} text - Text of the todo to delete
-     */
-    const deleteToDo = (text) => {
-
-        updateLists([...ToDoList], text, 0);
-
-        updateLists([...ToDoListFilteredByState], text, 1);
-
-        if(ToDoListByPriority.length > 0)
-        {
-            updateLists([...ToDoListByPriority], text, 2);
-        }
-
-        if( ToDoListFilteredBySearchValue.length > 0 && 
-            (filterStateOption === 0 || filterStateOption === 2)
-        ){
-            updateLists([...ToDoListFilteredBySearchValue], text, 3);   
-        }
-    };
-
 
     /**
      * Checks if a string is empty or contains only whitespace
@@ -414,7 +478,7 @@ function useToDos() {
     // console.log('==== End Before validate ====');
 
     if (ToDoListFilteredByState.length > 0) 
-    {debugger;
+    {
         if (filterStateOption === 0 ||
             filterStateOption === 1 ||
             filterStateOption === 2) 
@@ -464,7 +528,12 @@ function useToDos() {
         filterByPriority,
         openModal,
         setOpenModal,
+        toDo,
+        setToDo,
+        createOrEdit,
+        setCreateOrEdit,
         addToDo,
+        updateToDo,
         completeToDo,
         deleteToDo,
         isEmpty,
